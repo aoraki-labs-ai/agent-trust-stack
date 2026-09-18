@@ -40,7 +40,7 @@ a source fails the build.
 | `/llms-full.txt` | Flattened full text |
 | `/api/claims.json` | Every fact record; claims still owing a primary source are withheld |
 | `/md/<slug>.md` | That chapter as plain markdown |
-| `mcp/` | MCP server: `search_claims`, `get_claim`, `list_falsifiers`, `whats_changed` |
+| `mcp/` _(planned)_ | MCP server: `search_claims`, `get_claim`, `list_falsifiers`, `whats_changed` |
 
 ---
 
