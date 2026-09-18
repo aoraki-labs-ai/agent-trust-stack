@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate claims and chapters
+        run: npm run check
+      - name: Build
+        run: npx astro build
+      - name: Reset review status on edited chapters
+        if: github.event_name == 'pull_request'
+        run: node scripts/check-review-status.mjs origin/${{ github.base_ref }}

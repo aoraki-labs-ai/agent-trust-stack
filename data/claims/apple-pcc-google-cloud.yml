@@ -1,0 +1,22 @@
+id: apple-pcc-google-cloud
+kind: event
+statement:
+  zh: 2026-06-08，Apple 宣布 Private Cloud Compute 首次在自有机房之外运行，最吃算力的请求转至 Google Cloud 的 NVIDIA Blackwell GPU（开启机密计算）与 Intel TDX CPU 上
+  en: On 2026-06-08 Apple announced Private Cloud Compute running outside its own data centres for the first time, with the heaviest requests served on Google Cloud's NVIDIA Blackwell GPUs in confidential computing mode and Intel TDX CPUs
+value: { date: 2026-06-08 }
+tier: literature
+sources:
+  - url: https://security.apple.com/blog/expanding-pcc/
+    title: Expanding Private Cloud Compute
+    publisher: Apple Security Research
+    type: primary
+    accessed: 2026-09-17
+  - url: https://www.infoq.com/news/2026/07/apple-pcc-google-cloud/
+    title: Apple Extends Private Cloud Compute to Google Cloud for the First Time
+    publisher: InfoQ
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: Apple 的公告中不存在可被第三方独立验证的证明链（度量值、签名者、验证工具），则本报告据此推出的「Apple 买的是远程证明」一说不成立
+  en: If Apple's disclosure contains no independently verifiable attestation chain, the inference that Apple is buying remote attestation does not hold
+review_by: 2027-03-01

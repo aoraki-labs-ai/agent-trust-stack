@@ -1,0 +1,16 @@
+id: eu-ai-act-logging
+kind: status
+statement:
+  zh: AI Act 第 12 条要求高风险系统在全生命周期自动记录事件日志；第 19 条与第 26(6) 条要求至少保存 6 个月
+  en: AI Act Article 12 requires automatic lifetime event logging for high-risk systems; Articles 19 and 26(6) require at least 6 months retention
+tier: literature
+sources:
+  - url: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+    title: "Regulation (EU) 2024/1689, Articles 12, 19, 26"
+    publisher: EUR-Lex
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 条文原文中不存在 6 个月的最低保存期要求
+  en: The regulation's text contains no six-month minimum retention requirement
+review_by: 2027-01-01

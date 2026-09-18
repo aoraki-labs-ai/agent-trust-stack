@@ -1,0 +1,17 @@
+id: eu-ai-act-high-risk-date
+kind: event
+statement:
+  zh: 欧盟 AI Act 针对高风险 AI 系统的大部分义务自 2026-08-02 起适用
+  en: Most EU AI Act obligations for high-risk AI systems apply from 2026-08-02
+value: { date: 2026-08-02 }
+tier: literature
+sources:
+  - url: https://eur-lex.europa.eu/eli/reg/2024/1689/oj
+    title: "Regulation (EU) 2024/1689 (AI Act)"
+    publisher: EUR-Lex
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 欧盟正式通过推迟适用日期的修订案
+  en: The EU formally adopts an amendment postponing the application date
+review_by: 2027-01-01

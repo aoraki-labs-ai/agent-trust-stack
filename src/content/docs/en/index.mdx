@@ -1,0 +1,45 @@
+---
+title: Agent Trust Stack
+description: A living, source-linked report on where trust breaks when the actor doing the computing stops being a person, who is patching it, and for how much money.
+chapter: "--"
+status: in-review
+template: splash
+hero:
+  tagline: Where trust breaks when the actor doing the computing stops being a person — who is patching it, how well, and for how much. Every number carries a source; every conclusion carries the method for killing it.
+  actions:
+    - text: Start with the method
+      link: /agent-trust-stack/en/00-method/
+      icon: right-arrow
+    - text: GitHub
+      link: https://github.com/aoraki-labs-ai/agent-trust-stack
+      icon: external
+      variant: minimal
+---
+
+## Current state
+
+This report is under construction. Chapter 00 (method and how to read it) is drafted and awaiting
+review; the body chapters follow.
+
+Chapters that are not signed off are flagged at the top of the page and are excluded from the
+`llms.txt` and `claims.json` exports — **everything you read through a machine interface has been
+signed by someone.**
+
+## Three things that make this different
+
+**1 &middot; Facts live apart from prose.** Every checkable number is a database record with source
+link, source tier, confidence tier and access date. Prose and charts read the same record, so they
+cannot drift apart.
+
+**2 &middot; Every conclusion ships with the method for killing it.** Not "needs further
+validation", but "this specific observation would overturn it, and here is where to make it".
+
+**3 &middot; Machine interfaces are first-class.** `/llms.txt`, `/api/claims.json`, a `.md` twin of
+every page, and an MCP server. This report expects to be read by AI, so it is organised to be
+machine-checkable.
+
+## Disclosure
+
+Maintained by Aoraki Labs, who **hold commercial interests in ZK proving and trusted hardware**.
+Every judgement is tagged as an inference and ships with its falsifier; please run those checks
+rather than take our word. See the [method chapter](/agent-trust-stack/en/00-method/).

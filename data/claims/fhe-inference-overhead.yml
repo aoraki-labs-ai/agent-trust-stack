@@ -1,0 +1,16 @@
+id: fhe-inference-overhead
+kind: quantity
+statement:
+  zh: FHE 推理的开销仍是明文的 1,000–10,000 倍
+  en: FHE inference still costs 1,000-10,000x plaintext
+value: { low: 1000, high: 10000, unit: "x", metric: compute-vs-plaintext }
+tier: literature
+needs_primary_source: true
+sources: []
+notes:
+  zh: 本条继承自一份未公开的内部调研，尚未回溯到一手来源。在补齐来源前，站点上会显著标注，且不进入 claims.json 导出。
+  en: Inherited from an unpublished internal survey and not yet traced to a primary source. Flagged on the site and excluded from the claims.json export until sourced.
+falsifier:
+  zh: 权威基准（如 HEBench）给出的同任务开销落在 1,000 倍以下
+  en: An authoritative benchmark such as HEBench reports same-task overhead below 1,000x
+review_by: 2026-12-01

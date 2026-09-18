@@ -1,0 +1,39 @@
+name: Refute a conclusion
+description: You ran one of our stated falsification checks, or found a conclusion the evidence does not support.
+title: "[falsify] "
+labels: [falsification]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the most valuable kind of issue this repo receives. Please open it
+        even when the result supports us — a check that came back confirming is
+        still evidence, and we will record it.
+  - type: input
+    id: target
+    attributes:
+      label: Which conclusion or claim
+      description: Chapter section, or a claim id from /api/claims.json
+      placeholder: "erc8004-validation-registry-absent"
+    validations: { required: true }
+  - type: textarea
+    id: observation
+    attributes:
+      label: What you observed
+      description: The actual measurement, query or document — with enough detail that someone else can repeat it.
+    validations: { required: true }
+  - type: textarea
+    id: method
+    attributes:
+      label: How you observed it
+      description: Commands, URLs, machine and configuration. If it was a benchmark, name the hardware.
+    validations: { required: true }
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: Your verdict
+      options:
+        - The conclusion is wrong
+        - The conclusion is right but stated too strongly
+        - The conclusion held up
+    validations: { required: true }

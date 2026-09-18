@@ -1,0 +1,21 @@
+id: erc8004-functional-rate
+kind: quantity
+statement:
+  zh: 在 ERC-8004 上登记的 agent 中，同时具备合法注册文件与已声明服务的比例，在以太坊、BSC、Base 上分别为 3%、4%、15%
+  en: Of agents registered under ERC-8004, only 3%, 4% and 15% on Ethereum, BSC and Base expose both a valid registration file and a declared service
+value:
+  ethereum: { registered: 32000, functional_rate: 0.03 }
+  bsc: { registered: 90000, functional_rate: 0.04 }
+  base: { registered: 51000, functional_rate: 0.15 }
+  window: 2026-01/2026-05
+tier: literature
+sources:
+  - url: https://arxiv.org/abs/2606.26028
+    title: "Can Trustless Agents Be Trusted? An Empirical Study of the ERC-8004 Decentralized AI Agent Ecosystem"
+    publisher: arXiv
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 用同样方法在 2026-09 之后重测，可用比例超过 50%
+  en: Re-running the same method after 2026-09 finds a functional rate above 50%
+review_by: 2026-12-01

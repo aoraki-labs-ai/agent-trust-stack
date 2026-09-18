@@ -1,0 +1,29 @@
+name: Submit a data point
+description: A number, date or fact that belongs in the claims database.
+title: "[claim] "
+labels: [new-claim]
+body:
+  - type: input
+    id: statement
+    attributes:
+      label: The claim, in one sentence
+      description: State the number and what it measures. Avoid adjectives.
+    validations: { required: true }
+  - type: input
+    id: source
+    attributes:
+      label: Source URL
+      description: Prefer a primary source — statutory text, the company's own disclosure, a peer-reviewed paper.
+    validations: { required: true }
+  - type: dropdown
+    id: source_type
+    attributes:
+      label: Source tier
+      options: [primary, secondary, vendor, analyst]
+    validations: { required: true }
+  - type: textarea
+    id: falsifier
+    attributes:
+      label: What observation would overturn this
+      description: "Required. \"Needs further validation\" is not an answer."
+    validations: { required: true }

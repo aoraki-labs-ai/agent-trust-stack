@@ -1,0 +1,23 @@
+{
+  "name": "agent-trust-stack",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "npm run check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "validate": "node scripts/validate-claims.mjs",
+    "lint:content": "node scripts/lint-content.mjs",
+    "check": "npm run validate && npm run lint:content"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.1",
+    "astro": "^7.2.10",
+    "sharp": "^0.35.3",
+    "yaml": "^2.9.1"
+  },
+  "description": "A living, source-linked report on trustworthy-privacy and verifiable AI for the agent era.",
+  "license": "CC-BY-4.0 AND MIT"
+}

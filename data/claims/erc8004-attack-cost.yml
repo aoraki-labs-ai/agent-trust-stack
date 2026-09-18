@@ -1,0 +1,17 @@
+id: erc8004-attack-cost
+kind: quantity
+statement:
+  zh: 在 Base 上操纵一个 ERC-8004 agent 评分的中位成本为 0.0027 美元
+  en: The median cost of manipulating an ERC-8004 agent's reputation score on Base is $0.0027
+value: { median: 0.0027, currency: USD, chain: base }
+tier: literature
+sources:
+  - url: https://arxiv.org/abs/2606.26028
+    title: "Can Trustless Agents Be Trusted?"
+    publisher: arXiv
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: Reputation Registry 引入押金或身份成本，使中位攻击成本上升三个数量级以上
+  en: The Reputation Registry adds a stake or identity cost raising median attack cost by three orders of magnitude
+review_by: 2026-12-01

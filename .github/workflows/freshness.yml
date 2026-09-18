@@ -1,0 +1,38 @@
+name: Freshness sweep
+
+# Facts rot silently. Once a month, open an issue listing every claim past its
+# review_by date so that staleness is visible rather than assumed away.
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - id: stale
+        run: node scripts/report-stale.mjs >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('node:child_process');
+            const body = execSync('node scripts/report-stale.mjs').toString();
+            if (body.includes('No claims are past')) return;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Freshness sweep ${new Date().toISOString().slice(0, 7)}`,
+              body,
+              labels: ['freshness'],
+            });

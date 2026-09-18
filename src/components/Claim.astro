@@ -1,0 +1,54 @@
+---
+import { getClaim } from '../lib/claims';
+
+interface Props {
+  /** Claim id, matching a file in data/claims/. */
+  id: string;
+  /** Render the full statement instead of the short value. */
+  full?: boolean;
+}
+
+const { id, full = false } = Astro.props;
+const claim = getClaim(id);
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+
+function derive(): string {
+  const v: any = claim.value;
+  if (!v) return claim.statement[lang];
+  if (v.low !== undefined && v.high !== undefined) {
+    const fmt = (n: number) => n.toLocaleString('en-US');
+    const unit = v.unit === 'x' ? '\u00d7' : (v.unit ?? '');
+    return `${fmt(v.low)}\u2013${fmt(v.high)}${unit}`;
+  }
+  if (v.date) return String(v.date).slice(0, 10);
+  return claim.statement[lang];
+}
+
+const text = full ? claim.statement[lang] : (claim.display?.[lang] ?? derive());
+const primary = claim.sources.find((s) => s.type === 'primary') ?? claim.sources[0];
+const tierLabel: Record<string, string> = {
+  measured: lang === 'en' ? 'measured' : '实测',
+  reproducible: lang === 'en' ? 'reproducible' : '可复算',
+  literature: lang === 'en' ? 'from literature' : '文献',
+  inference: lang === 'en' ? 'inference' : '推断',
+};
+const owes =
+  claim.needs_primary_source &&
+  (lang === 'en' ? 'source still owed' : '尚缺一手来源');
+---
+
+<span
+  class:list={['claim', `claim--${claim.tier}`, claim.needs_primary_source && 'claim--owes']}
+  data-claim-id={claim.id}
+>
+  <span class="claim__text">{text}</span><span class="claim__tier" title={`${tierLabel[claim.tier]} · ${claim.statement[lang]}`}>{tierLabel[claim.tier]}</span>{
+    primary && (
+      <a
+        class="claim__src"
+        href={primary.archived ?? primary.url}
+        title={`${primary.publisher} — ${primary.title} (${primary.type})`}
+        target="_blank"
+        rel="noopener noreferrer">{primary.publisher}</a>
+    )
+  }{owes && <span class="claim__owes">{owes}</span>}
+</span>

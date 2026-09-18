@@ -1,0 +1,149 @@
+/* ---- Claim rendering -------------------------------------------------- */
+.claim {
+  white-space: nowrap;
+}
+.claim__text {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.claim__tier,
+.claim__src,
+.claim__owes {
+  font-size: 0.72em;
+  vertical-align: super;
+  line-height: 1;
+  margin-inline-start: 0.25em;
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+.claim__tier {
+  color: var(--sl-color-gray-2);
+  border: 1px solid var(--sl-color-gray-5);
+}
+/* Inference is our judgement, not a measurement — it never blends in. */
+.claim--inference .claim__tier {
+  color: var(--sl-color-orange-high);
+  border-color: var(--sl-color-orange);
+}
+.claim--measured .claim__tier {
+  color: var(--sl-color-green-high);
+  border-color: var(--sl-color-green);
+}
+.claim__src {
+  color: var(--sl-color-text-accent);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.claim__src:hover {
+  text-decoration: underline;
+}
+.claim--owes .claim__text {
+  text-decoration: underline wavy var(--sl-color-orange);
+  text-underline-offset: 4px;
+}
+.claim__owes {
+  color: var(--sl-color-orange-high);
+  border: 1px solid var(--sl-color-orange);
+}
+
+/* ---- Review state banner ---------------------------------------------- */
+.review-banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  align-items: baseline;
+  margin-block: 1rem 0;
+  padding: 0.7rem 1rem;
+  border-inline-start: 3px solid var(--sl-color-orange);
+  border-radius: 0 0.3rem 0.3rem 0;
+  background: var(--sl-color-orange-low);
+  font-size: var(--sl-text-sm);
+}
+.review-banner strong {
+  color: var(--sl-color-orange-high);
+}
+.review-banner--in-review {
+  border-color: var(--sl-color-blue);
+  background: var(--sl-color-blue-low);
+}
+.review-banner--in-review strong {
+  color: var(--sl-color-blue-high);
+}
+.review-signoff {
+  margin-block: 0.75rem 0;
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-gray-3);
+}
+
+/* ---- Figures ----------------------------------------------------------- */
+.figure {
+  margin-block: 1.75rem;
+}
+.figure__scroll {
+  overflow-x: auto;
+  padding: 0.85rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  background: var(--sl-color-bg);
+}
+.figure svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.figure figcaption {
+  margin-top: 0.6rem;
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-gray-3);
+  line-height: 1.6;
+}
+.figure__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.1rem;
+  margin-bottom: 0.6rem;
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-gray-2);
+}
+.figure__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.figure__swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Categorical series, validated for colour-vision deficiency in both modes.
+   Do not re-pick these by eye — see CONTRIBUTING.md. */
+:root {
+  --series-1: #2a78d6; /* hardware root of trust */
+  --series-2: #eb6834; /* cryptography */
+  --series-3: #1baf7a; /* protocol and governance */
+}
+:root[data-theme='dark'] {
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+}
+
+/* ---- Falsification block ----------------------------------------------- */
+.falsify {
+  margin-block: 1rem 1.5rem;
+  padding: 0.75rem 1rem;
+  border-inline-start: 3px solid var(--sl-color-text-accent);
+  border-radius: 0 0.3rem 0.3rem 0;
+  background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+  font-size: var(--sl-text-sm);
+}
+.falsify > strong:first-child {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: var(--sl-text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

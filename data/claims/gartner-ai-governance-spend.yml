@@ -1,0 +1,20 @@
+id: gartner-ai-governance-spend
+kind: quantity
+statement:
+  zh: AI 治理平台支出预计 2026 年达 4.92 亿美元，2030 年超过 10 亿美元，CAGR 45.3%
+  en: AI governance platform spending is forecast at $492M in 2026, passing $1B by 2030, a 45.3% CAGR
+value: { from: 492000000, to: 1000000000, currency: USD, from_year: 2026, to_year: 2030, cagr: 0.453 }
+tier: literature
+sources:
+  - url: https://www.gartner.com/en/newsroom/press-releases/2026-02-17-gartner-global-ai-regulations-fuel-billion-dollar-market-for-ai-governance-platforms
+    title: Global AI Regulations Fuel Billion-Dollar Market for AI Governance Platforms
+    publisher: Gartner
+    type: analyst
+    accessed: 2026-09-17
+notes:
+  zh: 分析机构预测，非实测。本报告对所有 analyst 类来源统一标注，不做交叉平均。
+  en: An analyst forecast, not a measurement. All analyst-tier sources are labelled as such and never averaged together.
+falsifier:
+  zh: Gartner 在后续年度将该品类的 2026 年基数下修超过 30%
+  en: Gartner revises the 2026 base for this category down by more than 30% in a later release
+review_by: 2027-03-01

@@ -1,0 +1,39 @@
+---
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const status = (Astro.locals.starlightRoute.entry.data as any).status ?? 'draft';
+const reviewedBy = (Astro.locals.starlightRoute.entry.data as any).reviewedBy;
+const reviewedAt = (Astro.locals.starlightRoute.entry.data as any).reviewedAt;
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+
+const copy = {
+  zh: {
+    draft: ['草稿 · 未定稿', '本章尚未经过审阅，数字与结论都可能变动。请勿引用。'],
+    'in-review': ['审阅中', '本章正在审阅，内容大体成形但尚未签署定稿。'],
+  },
+  en: {
+    draft: ['Draft — not signed off', 'This chapter has not been reviewed. Numbers and conclusions may still change. Please do not cite it.'],
+    'in-review': ['In review', 'This chapter is under review: largely settled, not yet signed off.'],
+  },
+}[lang] as Record<string, [string, string]>;
+
+const banner = copy[status];
+---
+
+<Default><slot /></Default>
+{
+  banner && (
+    <aside class={`review-banner review-banner--${status}`}>
+      <strong>{banner[0]}</strong>
+      <span>{banner[1]}</span>
+    </aside>
+  )
+}
+{
+  status === 'approved' && reviewedBy && (
+    <p class="review-signoff">
+      {lang === 'en' ? 'Signed off by' : '定稿签署'} {reviewedBy}
+      {reviewedAt && ` · ${new Date(reviewedAt).toISOString().slice(0, 10)}`}
+    </p>
+  )
+}

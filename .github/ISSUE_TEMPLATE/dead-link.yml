@@ -1,0 +1,25 @@
+name: Dead or changed source
+description: A source link is broken, paywalled, or no longer says what we claim it says.
+title: "[link] "
+labels: [dead-link]
+body:
+  - type: input
+    id: claim
+    attributes:
+      label: Claim id or page
+    validations: { required: true }
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What happened
+      options:
+        - 404 / gone
+        - Redirects somewhere unrelated
+        - Now paywalled
+        - Content changed and no longer supports the claim
+    validations: { required: true }
+  - type: input
+    id: archive
+    attributes:
+      label: Archive URL, if you have one
+      description: A web.archive.org snapshot from around our access date is ideal.

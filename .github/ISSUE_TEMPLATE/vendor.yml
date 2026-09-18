@@ -1,0 +1,27 @@
+name: Vendor correction or addition
+description: Add a company to the ecosystem map, or correct what we say about one.
+title: "[vendor] "
+labels: [vendor]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Company or project
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes:
+      label: What they actually sell
+      description: Product, not positioning. What can a buyer place an order for today?
+    validations: { required: true }
+  - type: input
+    id: evidence
+    attributes:
+      label: Evidence URL
+    validations: { required: true }
+  - type: checkboxes
+    id: affiliation
+    attributes:
+      label: Affiliation
+      options:
+        - label: I work for, advise, or hold equity in this company

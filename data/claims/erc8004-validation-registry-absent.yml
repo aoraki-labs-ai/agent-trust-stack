@@ -1,0 +1,17 @@
+id: erc8004-validation-registry-absent
+kind: status
+statement:
+  zh: 在研究窗口内，ERC-8004 的 Validation Registry 在被研究的链上均无主网部署
+  en: Within the study window, the ERC-8004 Validation Registry had no mainnet deployment on any of the chains studied
+value: { window: 2026-01/2026-05, deployed: false }
+tier: literature
+sources:
+  - url: https://arxiv.org/abs/2606.26028
+    title: "Can Trustless Agents Be Trusted?"
+    publisher: arXiv
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 在 Etherscan / Basescan 上查到 Validation Registry 的主网合约且月调用量上千
+  en: A mainnet Validation Registry contract is found on Etherscan or Basescan with over a thousand calls per month
+review_by: 2026-12-01

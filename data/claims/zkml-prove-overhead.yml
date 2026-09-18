@@ -1,0 +1,17 @@
+id: zkml-prove-overhead
+kind: quantity
+statement:
+  zh: zkML 为一次推理生成证明的开销，是明文执行的 100–10,000 倍
+  en: Generating a ZK proof for one inference costs 100–10,000x plaintext execution
+value: { low: 100, high: 10000, unit: "x", metric: prove-time-vs-plaintext }
+tier: literature
+sources:
+  - url: https://equilibrium.co/writing/state-of-verifiable-inference
+    title: State of Verifiable Inference & Future Directions
+    publisher: Equilibrium Labs
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: 出现可复现的公开基准，7B 模型 1,000 token 的证明进入分钟级（较当前提升 100 倍以上）
+  en: A reproducible public benchmark proves 1,000 tokens of a 7B model in minutes (100x better than today)
+review_by: 2027-03-01

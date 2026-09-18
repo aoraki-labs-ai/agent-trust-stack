@@ -1,0 +1,22 @@
+id: webbotauth-production
+kind: event
+statement:
+  zh: Cloudflare 于 2026-03 在边缘生产环境启用 Web Bot Auth；该机制基于 RFC 9421 HTTP 消息签名与 Ed25519 密钥
+  en: Cloudflare activated Web Bot Auth in production at its edge in 2026-03, built on RFC 9421 HTTP Message Signatures and Ed25519 keys
+value: { date: 2026-03 }
+tier: literature
+sources:
+  - url: https://blog.cloudflare.com/web-bot-auth/
+    title: "Forget IPs: using cryptography to verify bot and agent traffic"
+    publisher: Cloudflare
+    type: primary
+    accessed: 2026-09-17
+  - url: https://www.ietf.org/archive/id/draft-meunier-webbotauth-registry-01.html
+    title: Registry and Signature Agent card for Web Bot Auth
+    publisher: IETF
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: Cloudflare Radar 显示带 Signature-Agent 头的请求长期不足 agent 流量的 1%
+  en: Cloudflare Radar shows requests carrying a Signature-Agent header stay below 1% of agent traffic
+review_by: 2027-06-01

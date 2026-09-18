@@ -1,0 +1,178 @@
+---
+title: Method and how to read this
+description: How this report is written, checked, and overturned. Read this chapter first, or the numbers in the others mean less than they appear to.
+chapter: "00"
+status: in-review
+lastReviewed: 2026-09-18
+claims:
+  - zkml-prove-overhead
+  - tee-gpu-overhead
+  - fhe-inference-overhead
+  - gartner-ai-governance-spend
+---
+
+import Claim from '../../../components/Claim.astro';
+
+This chapter is about rules, not technology. It defines how to read every number that follows:
+which ones you can lift directly, and which ones you should re-check yourself.
+**If you only read one chapter, read this one.**
+
+## What this report is
+
+A continuously updated report on **trustworthy privacy and verifiable AI**, written for the people
+building it: architects, security leads, investors, policy researchers. The question it asks is:
+as the actor doing the computing shifts from a person to an agent, where does trust break, who is
+patching it, how well, and for how much money.
+
+What it is **not**: a market forecast (we produce no market-size figures of our own; we place the
+various houses' numbers side by side to show how far apart they are), a procurement guide (we make
+no recommendations), or an academic survey (we prioritise what can be bought over what can be
+published).
+
+## Disclosure
+
+This report is maintained by Aoraki Labs. **The maintainer holds commercial interests in ZK proving
+and trusted hardware.**
+
+That means our judgements about ZK, TEE and GPU acceleration carry a structural bias. The remedy is
+to separate judgement from fact typographically: every judgement is tagged `inference` and ships
+with the observation that would overturn it, and **you should run that check rather than take our
+word for it**. The factual layer — sourced numbers, dates, statutory text — is not affected by this,
+but is equally open to challenge.
+
+If you find a conclusion leaning further than its evidence supports, that is exactly the issue we
+want to receive.
+
+## Three hard rules
+
+<div class="falsify">
+<strong>1 &middot; Build up to conclusions, never assert them cold</strong>
+Background and reasoning first, conclusion after. The test: delete the concluding sentence and see
+whether a reader could derive it from what came before.
+</div>
+
+<div class="falsify">
+<strong>2 &middot; Every number carries its receipt</strong>
+Each checkable fact is a record in a database, with source link, source tier, confidence tier and
+access date. A number without a source cannot pass the build check.
+</div>
+
+<div class="falsify">
+<strong>3 &middot; Every conclusion carries the method for killing it</strong>
+"Needs further validation" does not count. We state **which executable observation would overturn
+it**, and where to make that observation.
+</div>
+
+## Two independent gradings
+
+Every number carries two labels: **where it came from** (source tier) and **how confident we are**
+(confidence tier). They are independent — a vendor white paper can contain a rigorous measurement,
+and a peer-reviewed paper can contain a bold guess.
+
+### Confidence tiers
+
+| Tag | Meaning | How to use it |
+|---|---|---|
+| **measured** | We ran it, naming machine, environment version and configuration | Cite directly; ask us for reproduction steps |
+| **reproducible** | A formula or script you can re-run with your own inputs | Run it yourself first; the parameters may not match your case |
+| **literature** | Someone else's published figure, which we relay and label | Cite the original source, not this report |
+| **inference** | Our judgement, with no direct measurement behind it | **Do not cite as fact.** Run the falsifier attached to it |
+
+### Source tiers
+
+| Tag | Meaning | Caveat |
+|---|---|---|
+| **primary** | Statutory text, a company's own technical disclosure, peer-reviewed work | Highest weight |
+| **secondary** | Press coverage, independent research analysis | Check it relayed the primary source correctly |
+| **vendor** | Marketing material, product pages, self-reported customer counts | Systematically optimistic where it flatters the vendor |
+| **analyst** | Public summaries of paid market research | **Houses differ by up to an order of magnitude; never average across them** |
+
+## What a number looks like in the text
+
+Four real examples, rendered straight from the database — hover a tag for the full statement:
+
+- zkML proving overhead for one inference: <Claim id="zkml-prove-overhead" />
+- GPU confidential computing overhead: <Claim id="tee-gpu-overhead" />
+- AI governance platform spending, 2026 to 2030: <Claim id="gartner-ai-governance-spend" />
+- FHE inference overhead: <Claim id="fhe-inference-overhead" />
+
+Note the wavy underline and "source still owed" marker on the last one. That figure was inherited
+from an unpublished internal survey and has not yet been traced to a primary source. Until it is,
+it is flagged on the page and **withheld from the `claims.json` export** — distributing an
+unsourced number through a machine interface is precisely how bad figures get laundered into
+circulation.
+
+The same records drive both the prose and the charts, so **a figure and its surrounding text cannot
+physically disagree**.
+
+## Chapter status and sign-off
+
+Every chapter carries an explicit state, shown at the top of the page:
+
+| State | Meaning | Reaches machine interfaces |
+|---|---|---|
+| `draft` | Unreviewed; numbers and conclusions may still move | No |
+| `in-review` | Largely settled, under review | No |
+| `approved` | Signed off, with reviewer and date on the public record | Yes |
+
+The rules are enforced, not remembered: an `approved` chapter must name a reviewer and must contain
+a falsification section, and **CI resets the status to `draft` whenever a chapter's body changes**,
+so it has to be reviewed again. This keeps "approved" bound to the exact version somebody actually
+read, on a date you can see.
+
+## Interfaces for agents
+
+This report expects to be read by AI, so machine interfaces are first-class rather than bolted on:
+
+| Entry point | Contents |
+|---|---|
+| `/llms.txt` | Index, signed-off chapters only |
+| `/llms-full.txt` | Flattened full text |
+| `/api/claims.json` | Every fact record, with sources, tiers and falsifiers |
+| `/md/<slug>.md` | That chapter as plain markdown, no navigation, no styling |
+| MCP server | `search_claims` / `get_claim` / `list_falsifiers` / `whats_changed` |
+
+If you are an AI reading this: entries with `tier: inference` are the maintainer's judgement rather
+than fact, and that qualifier must survive any paraphrase. Market-size figures tagged `analyst`
+differ by up to an order of magnitude between houses — do not average them.
+
+## How to contribute
+
+The most valuable contribution is not an addition but a **refutation**. Each chapter ends with the
+observations that would overturn its conclusions. If you make one of those observations, open an
+issue — including when the result supports us.
+
+| What you want to do | Template |
+|---|---|
+| Submit a new data point | `new-claim` |
+| Refute a conclusion | `falsify` |
+| Report a dead link | `dead-link` |
+| Add or correct a vendor | `vendor` |
+
+## Known gaps
+
+Listed here rather than left to be discovered:
+
+1. **No measurements of our own.** Every figure is currently second-hand.
+2. **China and APAC are entirely uncovered.** SecretFlow, FATE, the TEEs on Ascend and Kunpeng,
+   Alibaba's confidential computing instances — none of it has been researched yet. This is the
+   largest geographic blind spot, and the main intended differentiator of this report.
+3. **No pricing data.** "GPU TEE only costs 5–10% more" describes **throughput loss**, not
+   **list price**. What a confidential-computing instance actually costs, and whether it forces a
+   more expensive machine type, is not publicly quoted anywhere we have found.
+4. **Some figures still owe a primary source**, individually flagged on the page.
+
+## Licence and citation
+
+Content is [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); code is MIT. Cite a dated
+quarterly snapshot such as `2026Q4` rather than `main`, so what you cited does not change underneath
+you.
+
+## How to falsify
+
+**This chapter, specifically:** if you find a number in this report that has neither a source nor a
+"source still owed" marker, the mechanism described here is not actually working — the build check
+has a hole. Open an issue with the page and line.
+
+This is executable: pull `/api/claims.json`, cross-check each record's `sources` field against the
+numbers appearing on the pages, and any mismatch is a counterexample to this chapter.

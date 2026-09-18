@@ -1,0 +1,20 @@
+id: tee-gpu-overhead
+kind: quantity
+statement:
+  zh: GPU 机密计算相对明文执行的开销约为 5%–10%，且随模型增大而下降
+  en: GPU confidential computing costs roughly 5-10% over plaintext execution, shrinking as models grow
+value: { low: 1.05, high: 1.10, unit: "x", metric: throughput-vs-plaintext }
+display:
+  zh: +5%–10%
+  en: +5-10%
+tier: literature
+sources:
+  - url: https://equilibrium.co/writing/state-of-verifiable-inference
+    title: State of Verifiable Inference & Future Directions
+    publisher: Equilibrium Labs
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: 独立第三方在同一硬件上测得开启 CC 模式的吞吐损失持续高于 20%
+  en: An independent third party measures sustained throughput loss above 20% with CC mode on
+review_by: 2027-03-01
