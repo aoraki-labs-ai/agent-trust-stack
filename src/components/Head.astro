@@ -1,0 +1,16 @@
+---
+import Default from '@astrojs/starlight/components/Head.astro';
+
+/**
+ * Nothing here is indexable until two conditions hold: the site has been
+ * switched on for indexing (SITE_INDEXABLE=1 in the deploy workflow) and the
+ * chapter itself is signed off. A draft that a search engine has cached is a
+ * draft you can no longer take back.
+ */
+const siteIndexable = process.env.SITE_INDEXABLE === '1';
+const status = (Astro.locals.starlightRoute.entry.data as any).status ?? 'draft';
+const indexable = siteIndexable && status === 'approved';
+---
+
+<Default><slot /></Default>
+{!indexable && <meta name="robots" content="noindex, nofollow" />}

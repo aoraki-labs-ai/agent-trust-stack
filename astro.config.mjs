@@ -38,6 +38,8 @@ export default defineConfig({
       components: {
         // Injects the draft / in-review banner above every page body.
         PageTitle: './src/components/PageTitle.astro',
+        // Holds back search engines until a chapter is signed off.
+        Head: './src/components/Head.astro',
       },
       sidebar: [
         {
