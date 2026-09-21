@@ -1,0 +1,108 @@
+---
+import { dataset, t, FAMILY_COLOR, FAMILY_LABEL, type Bi } from '../../lib/data';
+
+interface Point {
+  label: Bi;
+  x: number;
+  y: number;
+  family: string;
+  anchor: 'start' | 'end';
+  dx: number;
+  dy: number;
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const points = dataset<Point[]>('positioning');
+
+const X = (v: number) => 100 + 200 * v;
+const Y = (v: number) => 500 - 143.333 * v;
+
+const xTicks = {
+  zh: ['只有论文', '开源可跑', '有托管服务', '云厂商 GA'],
+  en: ['papers only', 'open source runs', 'hosted service', 'cloud GA'],
+}[lang];
+const yTicks = {
+  zh: ['无明确买家', '生态补贴', '企业试点', '合规强制'],
+  en: ['no buyer', 'ecosystem subsidy', 'enterprise pilot', 'compliance-forced'],
+}[lang];
+const quadrants = {
+  zh: [
+    [110, 96, 'start', '有需求，买不到'],
+    [690, 120, 'end', '正在成交'],
+    [110, 300, 'start', '还是论文'],
+    [690, 470, 'end', '能买到，但不急'],
+  ],
+  en: [
+    [110, 96, 'start', 'wanted, unbuyable'],
+    [690, 120, 'end', 'money moving'],
+    [110, 300, 'start', 'still papers'],
+    [690, 470, 'end', 'buyable, not urgent'],
+  ],
+}[lang] as [number, number, string, string][];
+
+const caption = {
+  zh: '<b>十四项技术的位置（本报告打分，属推断，非实测）。</b>右上角「正在成交」那一簇全是硬件与治理；左下角「还是论文」那一簇全是密码学。值得注意的是空着的左上角——<b>「有真实需求但买不到」的格子基本是空的</b>，说明当前的瓶颈不是供给不足，而是需求还没被定价。',
+  en: '<b>Fourteen technologies placed by this report — judgement, not measurement.</b> The top-right cluster where money is moving is all hardware and governance; the bottom-left cluster still in papers is all cryptography. Note the empty top-left: <b>almost nothing sits in "genuinely wanted but unbuyable"</b>, which says the bottleneck is not short supply but demand that has not been priced.',
+}[lang];
+---
+
+<figure class="figure">
+  <div class="figure__legend">
+    {
+      Object.entries(FAMILY_LABEL).map(([key, label]) => (
+        <span>
+          <i class="figure__swatch" style={`background:${FAMILY_COLOR[key]}`} />
+          {label[lang]}
+        </span>
+      ))
+    }
+  </div>
+
+  <div class="figure__scroll">
+    <svg viewBox="0 0 760 560" style="min-width:600px" role="img"
+      aria-label={lang === 'en'
+        ? 'Fourteen trustworthy-AI technologies placed on procurability against payment pressure'
+        : '十四项可信 AI 技术在可采购度与付费驱动强度两条轴上的位置'}>
+      <line x1="400" y1="70" x2="400" y2="500" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 5" />
+      <line x1="100" y1="285" x2="700" y2="285" stroke="currentColor" stroke-opacity=".12" stroke-dasharray="3 5" />
+      <line x1="100" y1="500" x2="700" y2="500" stroke="currentColor" stroke-opacity=".3" />
+      <line x1="100" y1="70" x2="100" y2="500" stroke="currentColor" stroke-opacity=".3" />
+
+      {xTicks.map((label, i) => (
+        <text x={X(i)} y={518} text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity=".52">{label}</text>
+      ))}
+      {yTicks.map((label, i) => (
+        <text x={92} y={Y(i) + 4} text-anchor="end" font-size="10.5" fill="currentColor" fill-opacity=".52">{label}</text>
+      ))}
+      <text x="400" y="545" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity=".6">
+        {lang === 'en' ? 'procurability →' : '可采购度 →'}
+      </text>
+      <text x="26" y="285" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity=".6"
+        transform="rotate(-90 26 285)">
+        {lang === 'en' ? 'payment pressure →' : '付费驱动强度 →'}
+      </text>
+
+      {quadrants.map(([qx, qy, anchor, label]) => (
+        <text x={qx} y={qy} text-anchor={anchor} font-size="11" font-weight="700" fill="currentColor" fill-opacity=".22">
+          {label}
+        </text>
+      ))}
+
+      {
+        points.map((p) => (
+          <>
+            <circle cx={X(p.x)} cy={Y(p.y)} r="6" fill={FAMILY_COLOR[p.family]} stroke="var(--sl-color-bg)" stroke-width="2">
+              <title>{t(p.label, lang)} — {lang === 'en' ? 'procurability' : '可采购度'} {p.x} / {lang === 'en' ? 'payment pressure' : '付费驱动'} {p.y}</title>
+            </circle>
+            <text x={X(p.x) + p.dx} y={Y(p.y) + p.dy} text-anchor={p.anchor} font-size="11.5"
+              fill="currentColor" fill-opacity=".9">
+              {t(p.label, lang)}
+            </text>
+          </>
+        ))
+      }
+    </svg>
+  </div>
+
+  <figcaption set:html={caption} />
+</figure>

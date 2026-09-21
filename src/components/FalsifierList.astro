@@ -1,0 +1,87 @@
+---
+import { allClaims } from '../lib/claims';
+
+/**
+ * The falsification list, generated from the claims database rather than
+ * maintained by hand — so it can never fall behind what the chapters assert.
+ */
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const claims = [...allClaims().values()].sort((a, b) => a.id.localeCompare(b.id));
+
+const TIER: Record<string, { zh: string; en: string }> = {
+  measured: { zh: '实测', en: 'measured' },
+  reproducible: { zh: '可复算', en: 'reproducible' },
+  literature: { zh: '文献', en: 'literature' },
+  inference: { zh: '推断', en: 'inference' },
+};
+const head = {
+  zh: ['记录', '陈述', '什么样的观测会推翻它'],
+  en: ['Record', 'Statement', 'What would overturn it'],
+}[lang];
+---
+
+<div class="tbl-wrap">
+  <table class="falsifiers">
+    <thead><tr>{head.map((h) => <th>{h}</th>)}</tr></thead>
+    <tbody>
+      {
+        claims.map((c) => (
+          <tr>
+            <td>
+              <code>{c.id}</code>
+              <span class="falsifiers__tier">{TIER[c.tier][lang]}</span>
+              {c.needs_primary_source && (
+                <span class="falsifiers__owes">{lang === 'en' ? 'source owed' : '缺一手来源'}</span>
+              )}
+            </td>
+            <td>{c.statement[lang]}</td>
+            <td>{c.falsifier[lang]}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-block: 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  .falsifiers {
+    width: 100%;
+    min-width: 760px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: var(--sl-text-sm);
+  }
+  .falsifiers th,
+  .falsifiers td {
+    padding: 0.55rem 0.75rem;
+    text-align: start;
+    vertical-align: top;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+  }
+  .falsifiers thead th {
+    background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+    white-space: nowrap;
+  }
+  .falsifiers tbody tr:last-child td { border-bottom: none; }
+  .falsifiers td:first-child { white-space: nowrap; }
+  .falsifiers__tier,
+  .falsifiers__owes {
+    display: inline-block;
+    margin-inline-start: 0.4em;
+    padding: 0 0.4em;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 3px;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+  }
+  .falsifiers__owes {
+    color: var(--sl-color-orange-high);
+    border-color: var(--sl-color-orange);
+  }
+</style>

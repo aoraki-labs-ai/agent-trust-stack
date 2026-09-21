@@ -1,0 +1,34 @@
+---
+title: Glossary
+description: The shared vocabulary for the whole report — each term in one plain sentence, plus why it matters to the argument here.
+chapter: "01"
+status: in-review
+lastReviewed: 2026-09-21
+---
+
+import GlossaryTable from '../../../components/GlossaryTable.astro';
+
+This chapter is the shared vocabulary for the report and **assumes no background at all**. Each
+entry gives two things: an explanation a non-specialist can follow, and why the term matters to the
+argument made here — the part a general dictionary will not tell you.
+
+Every chapter repeats the terms it needs at its own start, so you do not have to read this one
+first. This is the complete version, for looking things up.
+
+The small square on the left marks which family a term belongs to, with the same colours used
+throughout:
+
+- **Hardware root of trust** — depends on particular silicon, the costliest to replace, and the most concentrated in a few vendors' hands
+- **Cryptography** — mathematical guarantees that need no trusted hardware, paid for in compute
+- **Protocol and governance** — neither silicon nor mathematics, but agreement to follow the same rules
+
+<GlossaryTable />
+
+## How to falsify
+
+**This chapter, specifically:** if any chapter uses a term of art that appears neither in this table
+nor explained where it first appears in that chapter, then the claim that this report assumes no
+background is not met. Open an issue naming the chapter and the term.
+
+This is executable: extract every acronym and term of art from each chapter's body and diff it
+against this table.

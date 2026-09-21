@@ -1,0 +1,110 @@
+# Chapter 05. `gaps` refers to the numbered gaps in chapter 02.
+# Snapshot 2026-09. Funding figures are public disclosures.
+- camp: { zh: 芯片与云, en: Silicon and clouds }
+  role: { zh: 定标准, en: sets the standards }
+  members:
+    - name: NVIDIA
+      sells:
+        zh: GPU 机密计算（Hopper / Blackwell / Vera Rubin）、TEE-I/O、NRAS 远程证明服务
+        en: GPU confidential computing across Hopper, Blackwell and Vera Rubin; TEE-I/O; the NRAS attestation service
+      gaps: [2, 3]
+      scale:
+        zh: Blackwell CC 模式吞吐约为非安全配置的 98%（尚缺一手来源）
+        en: Blackwell CC mode reaches roughly 98% of non-secure throughput (source still owed)
+    - name: Intel · AMD · Arm · Google · Microsoft · AWS
+      sells:
+        zh: TDX / SEV-SNP / CCA；Confidential VM、Nitro Enclaves、Titan 安全芯片
+        en: TDX, SEV-SNP and CCA; Confidential VMs, Nitro Enclaves, the Titan security chip
+      gaps: [2, 3]
+      scale:
+        zh: Google Confidential G4（RTX PRO 6000 Blackwell）预览中
+        en: Google Confidential G4 with RTX PRO 6000 Blackwell in preview
+
+- camp: { zh: 企业机密计算软件, en: Enterprise confidential computing software }
+  role: { zh: 卖给 CISO, en: sells to the CISO }
+  members:
+    - name: Fortanix
+      sells:
+        zh: Confidential AI 平台、密钥管理；2025-10 起支持 NVIDIA CC GPU 上的 agentic AI
+        en: A confidential AI platform and key management; agentic AI on NVIDIA CC GPUs since 2025-10
+      gaps: [2, 3, 6]
+      scale: { zh: 自述 100+ 家客户, en: 100+ organisations, self-reported }
+      claim: fortanix-customers
+    - name: Anjuna · Opaque · Decentriq · Edgeless · Red Hat · IBM
+      sells:
+        zh: 机密容器、数据洁净室、证明管理
+        en: Confidential containers, data clean rooms, attestation management
+      gaps: [2]
+      scale:
+        zh: 洁净室在广告与医药已是成熟生意
+        en: Clean rooms are already a mature business in advertising and pharma
+
+- camp: { zh: 模型厂商自建, en: Model vendors building their own }
+  role: { zh: 把机密计算变成产品特性, en: turns confidential computing into a product feature }
+  members:
+    - name: Apple · OpenAI · Anthropic
+      sells:
+        zh: Apple PCC 扩展到 Google Cloud 上的 NVIDIA Blackwell 与 Intel TDX；OpenAI「Private Safety Processing」预览；Anthropic 零数据保留
+        en: Apple PCC extended onto NVIDIA Blackwell and Intel TDX in Google Cloud; OpenAI's Private Safety Processing preview; Anthropic's zero data retention
+      gaps: [2, 3]
+      scale:
+        zh: Anthropic 对覆盖模型仍保留 30 天；两家均未公布技术实现细节
+        en: Anthropic still retains 30 days for covered models; neither has published implementation detail
+
+- camp: { zh: 加密原生机密计算, en: Crypto-native confidential computing }
+  role: { zh: 去中心化 TEE 云, en: decentralised TEE clouds }
+  members:
+    - name: Phala Network
+      sells:
+        zh: Confidential AI Cloud（Intel TDX + H100/H200）、agent sandbox、ERC-8004 TEE Agent 模板
+        en: A confidential AI cloud on Intel TDX with H100/H200, an agent sandbox, and an ERC-8004 TEE agent template
+      gaps: [2, 3, 4]
+      scale:
+        zh: NEAR AI 的 TEE SDK 由其构建
+        en: Built the TEE SDK used by NEAR AI
+    - name: Oasis · Nillion · Marlin · Atoma · Super Protocol · Mind Network
+      sells:
+        zh: 机密 EVM、链下机密运行时、MPC 盲计算、混合隐私栈
+        en: Confidential EVMs, off-chain confidential runtimes, MPC blind computation, hybrid privacy stacks
+      gaps: [2, 3]
+      scale:
+        zh: Oasis 因关键组件跑在较老 SGX v1 上而避开 2025 年那轮攻击
+        en: Oasis escaped the 2025 round of attacks by running key components on older SGX v1
+
+- camp: { zh: 可验证推理与密码学, en: Verifiable inference and cryptography }
+  role: { zh: 技术最深，买家最少, en: deepest technology, fewest buyers }
+  members:
+    - name: EZKL · Giza · Lagrange · Polyhedra · Rarimo · Zypher
+      sells: { zh: zkML 电路与证明服务, en: zkML circuits and proving services }
+      gaps: [3]
+      scale: { zh: —, en: "—" }
+    - name: Gensyn · Ora · Inference Labs · Attestable · Zama · Fhenix · Inco
+      sells:
+        zh: 乐观验证与去中心化训练（Gensyn 2026-03 发布 Judge，做可验证模型评测）；FHE 协处理器与机密链
+        en: Optimistic verification and decentralised training (Gensyn shipped Judge for verifiable model evaluation in 2026-03); FHE coprocessors and confidential chains
+      gaps: [3]
+      scale:
+        zh: Gensyn 5,000 万美元；Attestable 种子轮 2,000 万；Inference Labs 累计 630 万；Zama A 轮 7,300 万 + B 轮 5,700 万 + 2026-01 公开发售 4,400 万（估值 5.5 亿）；Fhenix A 轮 1,500 万
+        en: Gensyn $50M; Attestable $20M seed; Inference Labs $6.3M total; Zama $73M Series A, $57M Series B and a $44M public sale in 2026-01 at a $550M valuation; Fhenix $15M Series A
+
+- camp: { zh: Agent 身份与治理, en: Agent identity and governance }
+  role: { zh: 增长最快, en: growing fastest }
+  members:
+    - name: Cloudflare
+      sells:
+        zh: Web Bot Auth：Ed25519 + RFC 9421 消息签名 + Signature-Agent 头
+        en: "Web Bot Auth: Ed25519 keys, RFC 9421 message signatures and a Signature-Agent header"
+      gaps: [1, 4]
+      scale:
+        zh: AWS WAF、Vercel、Shopify、Akamai 已支持；IETF 工作组 2026 年成立
+        en: Supported by AWS WAF, Vercel, Shopify and Akamai; IETF working group chartered in 2026
+      claim: webbotauth-adopters
+    - name: DigiCert · CrowdStrike · Entrust · Visa · Mastercard · Coinbase
+      sells:
+        zh: AI Trust Manager / AI Passport（可携带的签名凭证 + kill switch）、Agentic IdP、TAP、Agent Pay、x402
+        en: AI Trust Manager and AI Passport (a portable signed credential plus a kill switch), an agentic identity provider, TAP, Agent Pay and x402
+      gaps: [4, 5, 6]
+      scale:
+        zh: x402 基金会 2026-07 成立，约 40 家公司加入
+        en: The x402 Foundation was formed in 2026-07 with around 40 companies
+      claim: x402-foundation

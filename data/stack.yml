@@ -1,0 +1,86 @@
+# Chapter 04. Ordered top to bottom as the page renders them.
+- id: L4
+  name: { zh: 治理与举证, en: Governance and evidence }
+  question:
+    zh: 出了事，我拿什么举证？
+    en: When something goes wrong, what do I produce as evidence?
+  note:
+    zh: 这一层几乎不含新密码学，全是流程、日志与凭证管理，却是 2026 年预算最确定的一层。
+    en: Almost no new cryptography here — process, logs and credential management — yet it is the layer with the most certain budget in 2026.
+  chips:
+    - { label: { zh: AI 治理平台, en: AI governance platforms }, family: protocol }
+    - { label: { zh: 防篡改审计日志, en: Tamper-evident audit logs }, family: protocol }
+    - { label: DigiCert AI Trust Manager, family: protocol }
+    - { label: CrowdStrike Agentic IdP, family: protocol }
+    - { label: Entrust Agentic Trust, family: protocol }
+    - { label: { zh: C2PA 内容凭证, en: C2PA content credentials }, family: protocol }
+    - { label: { zh: AI Act 第 12 条, en: AI Act Article 12 }, family: protocol }
+- id: L3
+  name: { zh: Agent 信任协议, en: Agent trust protocols }
+  question:
+    zh: 这个请求是谁发的、谁授权的、上限多少？
+    en: Who sent this request, who authorised it, up to what limit?
+  note:
+    zh: 2026 年标准战打得最激烈的一层，支付网络、CDN、以太坊社区三方各出一套。
+    en: The most contested layer of 2026, with the payment networks, the CDNs and the Ethereum community each proposing their own.
+  chips:
+    - { label: Web Bot Auth / RFC 9421, family: protocol }
+    - { label: Visa TAP, family: protocol }
+    - { label: Mastercard Agent Pay, family: protocol }
+    - { label: Google AP2, family: protocol }
+    - { label: x402, family: protocol }
+    - { label: ERC-8004, family: protocol }
+    - { label: { zh: MCP 授权, en: MCP authorisation }, family: protocol }
+- id: L2
+  name: { zh: 机密运行时与云, en: Confidential runtimes and clouds }
+  question:
+    zh: 我的负载在哪跑、谁能碰它？
+    en: Where does my workload run, and who can touch it?
+  note:
+    zh: 把 L1 的原语包成可下单的产品。买家真正签合同的地方。
+    en: Wraps the L1 primitives into something you can order. Where buyers actually sign.
+  chips:
+    - { label: Apple PCC, family: hardware }
+    - { label: Google Confidential G4, family: hardware }
+    - { label: Azure Confidential, family: hardware }
+    - { label: AWS Nitro Enclaves, family: hardware }
+    - { label: Fortanix, family: hardware }
+    - { label: Anjuna, family: hardware }
+    - { label: Opaque, family: hardware }
+    - { label: Decentriq, family: hardware }
+    - { label: Phala Cloud, family: hardware }
+    - { label: Oasis ROFL, family: hardware }
+    - { label: Marlin, family: hardware }
+    - { label: Atoma, family: hardware }
+    - { label: NEAR AI, family: hardware }
+- id: L1
+  name: { zh: 证明与密码学原语, en: Attestation and cryptographic primitives }
+  question:
+    zh: 凭什么信？
+    en: On what basis should any of it be believed?
+  note:
+    zh: 远程证明是「机密」与「可验证」的唯一接缝：它本身就是一份关于硬件状态的、可被第三方验签的声明。
+    en: Remote attestation is the one seam between confidentiality and verifiability — it is itself a third-party-checkable statement about hardware state.
+  chips:
+    - { label: { zh: 远程证明 / NRAS, en: Remote attestation / NRAS }, family: hardware }
+    - { label: { zh: ZK（zkVM / zkML）, en: "ZK (zkVM / zkML)" }, family: crypto }
+    - { label: { zh: FHE（TFHE / CKKS / BFV）, en: "FHE (TFHE / CKKS / BFV)" }, family: crypto }
+    - { label: MPC, family: crypto }
+    - { label: { zh: zkTLS（MPC 模式 / Proxy 模式）, en: "zkTLS (MPC and proxy modes)" }, family: crypto }
+    - { label: { zh: 乐观验证与抽检, en: Optimistic and sampled verification }, family: protocol }
+- id: L0
+  name: { zh: 硬件信任根, en: Hardware root of trust }
+  question:
+    zh: 明文到底在哪一刻存在？
+    en: At which moment does plaintext exist at all?
+  note:
+    zh: 垄断程度最高的一层，也是第 07 章那批物理攻击直接命中的一层。
+    en: The most concentrated layer, and the one the physical attacks in chapter 07 land on directly.
+  chips:
+    - { label: Intel TDX, family: hardware }
+    - { label: AMD SEV-SNP, family: hardware }
+    - { label: Arm CCA, family: hardware }
+    - { label: { zh: NVIDIA CC（H100/H200/B200/GB200）, en: "NVIDIA CC (H100/H200/B200/GB200)" }, family: hardware }
+    - { label: RTX PRO 6000 Blackwell, family: hardware }
+    - { label: Google Titan, family: hardware }
+    - { label: AWS Nitro, family: hardware }

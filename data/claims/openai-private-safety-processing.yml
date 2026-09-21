@@ -1,0 +1,17 @@
+id: openai-private-safety-processing
+kind: event
+statement:
+  zh: OpenAI 于 2026-08 推出「Private Safety Processing」预览，主张前沿模型 API 的零数据保留与「OpenAI 员工无法访问」，但未公布技术实现细节
+  en: OpenAI introduced a Private Safety Processing preview in 2026-08, claiming zero data retention for frontier-model API traffic and no OpenAI personnel access, without disclosing the technical implementation
+value: { date: 2026-08 }
+tier: literature
+sources:
+  - url: https://www.theregister.com/ai-and-ml/2026/08/20/openai-chases-anthropics-biz-customers-with-zero-data-retention-pledge/5290609
+    title: OpenAI chases Anthropic's biz customers with zero data retention pledge
+    publisher: The Register
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: OpenAI 公布度量值、签名链与验证工具，使客户能独立验证该承诺
+  en: OpenAI publishes measurements, a signature chain and verification tooling letting customers check the claim themselves
+review_by: 2026-12-01

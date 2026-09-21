@@ -1,0 +1,16 @@
+id: wiretap-batteringram
+kind: event
+statement:
+  zh: WireTap 与 Battering RAM 通过低成本物理插入 DRAM 总线，命中确定性内存加密（缺完整性与新鲜度保护）这一设计假设，可提取 Intel SGX 的证明签名密钥；主要影响 DDR4 系统
+  en: WireTap and Battering RAM use low-cost physical interposition on the DRAM bus to attack deterministic memory encryption lacking integrity and freshness, extracting Intel SGX attestation signing keys; primarily DDR4 systems
+tier: literature
+sources:
+  - url: https://hacken.io/insights/wiretap-and-battering-ram-risks/
+    title: "WireTap and Battering RAM: Risks, Impact, and Response Roadmap"
+    publisher: Hacken
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: 原始论文显示攻击需要的不只是总线物理接触（例如还需管理员权限或特定固件版本），则本报告对威胁模型的描述需修正
+  en: The original papers show the attack needs more than physical bus access, in which case this report's threat-model description must be corrected
+review_by: 2027-03-01

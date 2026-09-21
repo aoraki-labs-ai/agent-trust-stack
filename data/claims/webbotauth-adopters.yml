@@ -1,0 +1,16 @@
+id: webbotauth-adopters
+kind: status
+statement:
+  zh: AWS WAF、Vercel、Shopify、Akamai 已支持 Web Bot Auth；2026-02 Cloudflare 与 Amazon Bedrock AgentCore 共建公开的 agent 公钥注册表格式；IETF 于 2026 年成立相关工作组
+  en: AWS WAF, Vercel, Shopify and Akamai support Web Bot Auth; in 2026-02 Cloudflare and Amazon Bedrock AgentCore published an open registry format for agent public keys; an IETF working group was chartered in 2026
+tier: literature
+sources:
+  - url: https://blog.cloudflare.com/signed-agents/
+    title: "The age of agents: cryptographically recognizing agent traffic"
+    publisher: Cloudflare
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 上述任一家的官方文档中查不到 Web Bot Auth 支持，或 IETF 工作组未实际成立
+  en: Any named vendor's own documentation shows no Web Bot Auth support, or no IETF working group was chartered
+review_by: 2027-03-01

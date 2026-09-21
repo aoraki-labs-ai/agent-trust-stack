@@ -1,0 +1,20 @@
+id: erc8004-sybil-reviewers
+kind: quantity
+statement:
+  zh: ERC-8004 生态中呈现女巫特征的评价者占比，在以太坊、BSC、Base 上分别为 73.5%、59.2%、90.6%；剔除可疑评价后，77.9%（以太坊）与 86.8%（Base）的被评 agent 失去全部有效信誉信号
+  en: Reviewers showing Sybil indicators account for 73.5%, 59.2% and 90.6% on Ethereum, BSC and Base; after removing flagged feedback, 77.9% (Ethereum) and 86.8% (Base) of rated agents lose all valid reputation signal
+value:
+  sybil_share: { ethereum: 0.735, bsc: 0.592, base: 0.906 }
+  lose_all_signal: { ethereum: 0.779, base: 0.868 }
+  window: 2026-01/2026-05
+tier: literature
+sources:
+  - url: https://arxiv.org/abs/2606.26028
+    title: "Can Trustless Agents Be Trusted?"
+    publisher: arXiv
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 用同样的女巫检测方法在更晚的窗口重测，占比降到 20% 以下
+  en: Re-running the same Sybil detection on a later window puts the share below 20%
+review_by: 2026-12-01

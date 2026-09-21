@@ -1,0 +1,21 @@
+id: digicert-incident-survey
+kind: quantity
+statement:
+  zh: DigiCert 在 2026 年 7 月对 1,001 名 IT 与安全负责人的调查中，78% 表示所在组织过去一年发生过 AI 相关安全事件或发现过 AI 漏洞
+  en: In a July 2026 DigiCert survey of 1,001 IT and security leaders, 78% said their organisation had an AI-related security incident or found an AI vulnerability in the previous year
+value: { share: 0.78, sample: 1001, fielded: 2026-07 }
+display: { zh: 78%, en: 78% }
+tier: literature
+sources:
+  - url: https://www.globenewswire.com/news-release/2026/09/15/3362163/0/en/every-ai-agent-needs-a-kill-switch-digicert-launches-ai-trust-manager.html
+    title: Every AI Agent Needs a Kill Switch - DigiCert Launches AI Trust Manager
+    publisher: DigiCert
+    type: vendor
+    accessed: 2026-09-17
+notes:
+  zh: 由销售相关产品的厂商发布的调查，问卷全文与抽样方法未公开。引用时应保留这一限定。
+  en: A survey published by a vendor selling into the same category; the instrument and sampling method are not public. Keep that qualifier when citing.
+falsifier:
+  zh: 公开问卷显示「AI 相关安全事件」的定义宽泛到包含任何策略告警，则该数字不支持「事故频发」的读法
+  en: The published instrument defines an AI-related incident loosely enough to include any policy alert, which would not support reading it as a high incident rate
+review_by: 2027-03-01

@@ -1,0 +1,118 @@
+---
+import { dataset, t, FAMILY_COLOR, FAMILY_LABEL, type Bi } from '../../lib/data';
+
+interface Gap {
+  id: string;
+  n: number;
+  name: Bi;
+  question: Bi;
+  threat: Bi;
+  flow_out?: Bi;
+  techs: { label: Bi; family: string }[];
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const gaps = dataset<Gap[]>('gaps');
+
+// Geometry: six columns on one spine, wide enough that the labels breathe.
+// The container scrolls horizontally on a phone rather than shrinking the type.
+const W = 124;
+const GAP = 48;
+const X0 = 14;
+const step = W + GAP;
+const VB_W = X0 * 2 + gaps.length * W + (gaps.length - 1) * GAP;
+
+const circled = ['①', '②', '③', '④', '⑤', '⑥'];
+
+/** Wraps a question into two lines without breaking mid-word in English. */
+function wrap(text: string): [string, string] {
+  if (lang === 'zh') {
+    const at = Math.ceil(text.length / 2);
+    return [text.slice(0, at), text.slice(at)];
+  }
+  const words = text.split(' ');
+  const half = Math.ceil(words.length / 2);
+  return [words.slice(0, half).join(' '), words.slice(half).join(' ')];
+}
+
+const caption = {
+  zh: '<b>一次 agent 任务的六个信任缺口。</b>每个方框是数据流经的一个位置，方框下红色是该位置的典型攻击，再下面是正在被卖的技术。注意配色：绿色（协议与治理）占了三分之二以上——<b>agent 带来的新增需求，绝大多数不是密码学问题，而是身份、授权与留痕问题。</b>',
+  en: '<b>The six places trust breaks in one agent task.</b> Each box is a position the data passes through; in red below it is the characteristic attack there, and below that the technologies being sold against it. Note the colour balance: protocol and governance (green) takes more than two thirds — <b>most of what agents newly demand is not a cryptography problem but an identity, authorisation and record-keeping problem.</b>',
+}[lang];
+---
+
+<figure class="figure">
+  <div class="figure__legend">
+    {
+      Object.entries(FAMILY_LABEL).map(([key, label]) => (
+        <span>
+          <i class="figure__swatch" style={`background:${FAMILY_COLOR[key]}`} />
+          {label[lang]}
+        </span>
+      ))
+    }
+  </div>
+
+  <div class="figure__scroll">
+    <svg
+      viewBox={`0 0 ${VB_W} 252`}
+      style={`min-width:${Math.min(VB_W, 900)}px`}
+      role="img"
+      aria-label={lang === 'en'
+        ? 'Six stages of an agent task, each with the trust gap it opens and the technologies addressing it'
+        : '一次 agent 任务的六个阶段，每个阶段对应一类信任缺口和一组正在解决它的技术'}
+    >
+      <defs>
+        <marker id="gap-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,1 L9,5 L0,9 z" fill="currentColor" />
+        </marker>
+      </defs>
+
+      {
+        gaps.map((gap, i) => {
+          const x = X0 + i * step;
+          const cx = x + W / 2;
+          const [q1, q2] = wrap(t(gap.question, lang));
+          const [th1, th2] = wrap(t(gap.threat, lang));
+          return (
+            <g>
+              <text x={cx} y={30} text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">
+                {circled[i]} {t(gap.name, lang)}
+              </text>
+              <rect x={x} y={42} width={W} height={76} rx="7" fill="none" stroke="currentColor" stroke-opacity=".28" />
+              <text x={cx} y={72} text-anchor="middle" font-size="12" fill="currentColor" fill-opacity=".9">{q1}</text>
+              <text x={cx} y={92} text-anchor="middle" font-size="12" fill="currentColor" fill-opacity=".9">{q2}</text>
+              <text x={cx} y={140} text-anchor="middle" font-size="10.5" fill="var(--sl-color-red)">{th1}</text>
+              <text x={cx} y={155} text-anchor="middle" font-size="10.5" fill="var(--sl-color-red)">{th2}</text>
+              {gap.techs.map((tech, j) => (
+                <>
+                  <rect x={x + 2} y={177 + j * 19} width="7" height="7" rx="1.5" fill={FAMILY_COLOR[tech.family]} />
+                  <text x={x + 15} y={184 + j * 19} font-size="11" fill="currentColor" fill-opacity=".82">
+                    {t(tech.label, lang)}
+                  </text>
+                </>
+              ))}
+            </g>
+          );
+        })
+      }
+
+      {
+        gaps.slice(0, -1).map((gap, i) => {
+          const x1 = X0 + i * step + W + 5;
+          const x2 = X0 + (i + 1) * step - 5;
+          return (
+            <>
+              <line x1={x1} y1={80} x2={x2 - 3} y2={80} stroke="currentColor" stroke-opacity=".45" stroke-width="1.5" marker-end="url(#gap-arrow)" />
+              <text x={(x1 + x2) / 2} y={98} text-anchor="middle" font-size="9.5" fill="currentColor" fill-opacity=".5">
+                {gap.flow_out ? t(gap.flow_out, lang) : ''}
+              </text>
+            </>
+          );
+        })
+      }
+    </svg>
+  </div>
+
+  <figcaption set:html={caption} />
+</figure>

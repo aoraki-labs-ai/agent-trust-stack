@@ -1,0 +1,81 @@
+---
+title: Open questions and the falsification list
+description: Every conclusion in this report with the executable observation that would overturn it, generated from the database — plus an honest list of what it currently cannot do.
+chapter: "08"
+status: in-review
+lastReviewed: 2026-09-21
+---
+
+import FalsifierList from '../../../components/FalsifierList.astro';
+
+This chapter is the report's self-audit. It does two jobs: hand anyone who wants to refute this a
+ready-made list, and put "what we do not know" in plain sight rather than leaving it to be
+discovered.
+
+## Falsifiers for every record
+
+The table below is generated from `data/claims/` and **is not maintained by hand**, so it cannot fall
+behind what the chapters assert. Adding a record without a falsifier fails the build outright.
+
+The tags are defined in [chapter 00](/agent-trust-stack/en/00-method/): `measured` means this report
+ran it, `reproducible` means a formula or script is provided, `literature` means someone else's
+published figure, and `inference` means this report's judgement. Entries marked "source owed" are
+withheld from the `claims.json` export.
+
+<FalsifierList />
+
+## The three refutations worth doing most
+
+Every entry above is open to challenge, but three carry the most information — each can overturn a
+whole chapter:
+
+1. **Look up the ERC-8004 Validation Registry.** One block-explorer query. If it is deployed and
+   genuinely used, section 7.1 of [chapter 07](/agent-trust-stack/en/07-cold-water/) is void.
+2. **Check whether Apple PCC's attestation chain on Google Cloud can be verified by a third party.**
+   Section 2.6 of [chapter 02](/agent-trust-stack/en/02-demand/) rests entirely on that unverified
+   premise.
+3. **Re-run the zkML proving benchmark.** If 1,000 tokens of a 7B model prove in minutes, the
+   "eight days" extrapolation in section 3.2 of [chapter 03](/agent-trust-stack/en/03-cost/) and
+   everything derived from it must be rewritten.
+
+## What this report currently cannot do
+
+Stated plainly:
+
+1. **No measurements of its own.** Every figure is relayed from elsewhere. Nothing has been run on
+   any specific machine, which is why no entry above is tagged `measured`.
+2. **The Chinese and APAC ecosystem is entirely uncovered.** SecretFlow, FATE, the TEEs on Ascend and
+   Kunpeng, Alibaba's confidential computing instances — none of it researched. The largest
+   geographic blind spot, and the main intended differentiator.
+3. **No pricing data.** "GPU TEE only costs 5–10% more" is **throughput loss**, not **list price**.
+   What a confidential instance actually costs, and whether it forces a more expensive machine type,
+   is not publicly quoted anywhere found. For judging commercial viability that matters more than the
+   performance figure.
+4. **Some figures still owe a primary source.** Flagged individually on the page and held out of the
+   machine interfaces.
+5. **The ERC-8004 data lags by four months.** The study window ends 2026-05; this snapshot is
+   2026-09.
+6. **Market-size figures cannot be cross-checked.** The houses differ by an order of magnitude, so
+   this report can only show the divergence.
+7. **Two adjacent threads are uncovered**: model weight exfiltration, and real enterprise deployment
+   volume for federated learning.
+
+## What comes next
+
+Ordered by how much each could overturn, not by how easy it is:
+
+| Priority | Work | What it would change |
+|---|---|---|
+| 1 | A China and APAC volume | Turns chapter 05 from a Western map into a global one |
+| 2 | Real GPU TEE pricing | Chapter 03 currently has throughput loss but no cost |
+| 3 | Trace every figure still owing a primary source | Makes `claims.json` complete |
+| 4 | Re-check ERC-8004's current on-chain state | Removes chapter 07's four-month lag |
+| 5 | Build an attack and incident archive | Currently scattered through chapter 07; should be its own accumulating chapter |
+
+## Contributing
+
+The most valuable contribution is a refutation. If you make any observation in the table above, open
+an issue — **including when the result supports this report**, because that is evidence too and will
+be recorded.
+
+Repository: [aoraki-labs-ai/agent-trust-stack](https://github.com/aoraki-labs-ai/agent-trust-stack)

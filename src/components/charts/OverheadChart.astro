@@ -1,0 +1,103 @@
+---
+import { dataset, t, FAMILY_COLOR, FAMILY_LABEL, type Bi } from '../../lib/data';
+
+interface Row {
+  label: Bi;
+  low: number;
+  high: number;
+  family: string;
+  display: Bi;
+  claim?: string;
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const rows = dataset<Row[]>('overhead');
+
+// A log axis, because these routes are not the same order of magnitude — which
+// is the whole point of the figure. Linear would pile four of them on zero.
+const X0 = 150;
+const XW = 670;
+const xs = (v: number) => X0 + (Math.log10(v) / 4) * XW;
+const rowY = (i: number) => 56 + i * 30;
+const AXIS_Y = rowY(rows.length - 1) + 26;
+
+const caption = {
+  zh: '<b>七种手段的计算开销，相对明文推理。</b>圆点是区间端点，线段是区间。左边四条挤在 1× 附近（差别在 2%–20% 之间），右边两条在 10<sup>2</sup>–10<sup>4</sup> 之间。这四个数量级的落差，就是「为什么企业买 TEE 不买 ZK」的全部答案。',
+  en: '<b>Compute overhead of seven approaches, relative to plaintext inference.</b> Dots mark the ends of each range. Four of them cluster near 1x, differing by 2% to 20%; two sit between 10<sup>2</sup> and 10<sup>4</sup>. That four-order-of-magnitude gap is the entire answer to why enterprises buy TEEs and not ZK.',
+}[lang];
+
+const axisLabel = {
+  zh: '相对明文推理的计算开销（对数刻度）',
+  en: 'Compute overhead relative to plaintext inference (log scale)',
+}[lang];
+---
+
+<figure class="figure">
+  <div class="figure__legend">
+    {
+      Object.entries(FAMILY_LABEL).map(([key, label]) => (
+        <span>
+          <i class="figure__swatch" style={`background:${FAMILY_COLOR[key]}`} />
+          {label[lang]}
+        </span>
+      ))
+    }
+  </div>
+
+  <div class="figure__scroll">
+    <svg viewBox={`0 0 860 ${AXIS_Y + 38}`} style="min-width:680px" role="img"
+      aria-label={lang === 'en'
+        ? 'Compute overhead of seven verifiable-inference approaches on a logarithmic axis from 1x to 10,000x'
+        : '七种可信推理手段相对明文推理的计算开销，对数横轴，从 1 倍到 1 万倍'}>
+      {
+        [0, 1, 2, 3, 4].map((k) => {
+          const v = 10 ** k;
+          const x = xs(v);
+          return (
+            <>
+              <line x1={x} y1={40} x2={x} y2={AXIS_Y} stroke="currentColor" stroke-opacity=".13" stroke-dasharray="2 4" />
+              <text x={x} y={AXIS_Y + 20} text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".55"
+                style="font-family:var(--__sl-font-mono,monospace)">
+                {v.toLocaleString('en-US')}×
+              </text>
+            </>
+          );
+        })
+      }
+      <line x1={X0} y1={AXIS_Y} x2={X0 + XW} y2={AXIS_Y} stroke="currentColor" stroke-opacity=".3" />
+      <text x={X0 + XW / 2} y={AXIS_Y + 36} text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".55">
+        {axisLabel}
+      </text>
+
+      {
+        rows.map((row, i) => {
+          const y = rowY(i);
+          const fill = row.family === 'baseline' ? 'currentColor' : FAMILY_COLOR[row.family];
+          const op = row.family === 'baseline' ? '.45' : '1';
+          return (
+            <>
+              <text x={X0 - 10} y={y + 4} text-anchor="end" font-size="12" fill="currentColor" fill-opacity=".92">
+                {t(row.label, lang)}
+              </text>
+              {row.high > row.low && (
+                <>
+                  <line x1={xs(row.low)} y1={y} x2={xs(row.high)} y2={y} stroke={fill} stroke-opacity={op} stroke-width="2" />
+                  <circle cx={xs(row.low)} cy={y} r="4.5" fill={fill} fill-opacity={op} stroke="var(--sl-color-bg)" stroke-width="2" />
+                </>
+              )}
+              <circle cx={xs(row.high)} cy={y} r="4.5" fill={fill} fill-opacity={op} stroke="var(--sl-color-bg)" stroke-width="2">
+                <title>{t(row.label, lang)}: {t(row.display, lang)}</title>
+              </circle>
+              <text x={xs(row.low) - 2} y={y - 10} font-size="10.5" fill="currentColor" fill-opacity=".62"
+                style="font-family:var(--__sl-font-mono,monospace)">
+                {t(row.display, lang)}
+              </text>
+            </>
+          );
+        })
+      }
+    </svg>
+  </div>
+
+  <figcaption set:html={caption} />
+</figure>

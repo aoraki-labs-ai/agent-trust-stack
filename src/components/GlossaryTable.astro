@@ -1,0 +1,93 @@
+---
+import { dataset, t, FAMILY_COLOR, FAMILY_LABEL, type Bi } from '../lib/data';
+
+interface Entry {
+  term: Bi;
+  full?: Bi;
+  plain: Bi;
+  why: Bi;
+  family: string;
+}
+
+interface Props {
+  /** Show only these terms, matched on the English/canonical term string. */
+  only?: string[];
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const { only } = Astro.props;
+const all = dataset<Entry[]>('glossary');
+const entries = only
+  ? all.filter((e) => only.includes(typeof e.term === 'string' ? e.term : e.term.en))
+  : all;
+
+const head = {
+  zh: ['名词', '一句话解释', '为什么重要'],
+  en: ['Term', 'In one sentence', 'Why it matters here'],
+}[lang];
+---
+
+<div class="tbl-wrap">
+  <table class="glossary">
+    <thead><tr>{head.map((h) => <th>{h}</th>)}</tr></thead>
+    <tbody>
+      {
+        entries.map((e) => (
+          <tr>
+            <td>
+              <span class="glossary__dot" style={`background:${FAMILY_COLOR[e.family]}`}
+                title={FAMILY_LABEL[e.family]?.[lang]} />
+              <b>{t(e.term, lang)}</b>
+              {e.full && <span class="glossary__full">{t(e.full, lang)}</span>}
+            </td>
+            <td>{t(e.plain, lang)}</td>
+            <td>{t(e.why, lang)}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-block: 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  .glossary {
+    width: 100%;
+    min-width: 680px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: var(--sl-text-sm);
+  }
+  .glossary th,
+  .glossary td {
+    padding: 0.55rem 0.75rem;
+    text-align: start;
+    vertical-align: top;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+  }
+  .glossary thead th {
+    background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+    white-space: nowrap;
+  }
+  .glossary tbody tr:last-child td { border-bottom: none; }
+  .glossary td:first-child { white-space: nowrap; }
+  .glossary__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    margin-inline-end: 0.5em;
+    vertical-align: 0.1em;
+  }
+  .glossary__full {
+    display: block;
+    margin-inline-start: 1.1em;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+  }
+</style>

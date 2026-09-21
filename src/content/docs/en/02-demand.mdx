@@ -1,0 +1,202 @@
+---
+title: "Demand: the six trust gaps"
+description: Where trust breaks in six places once the actor doing the computing is an agent — and for each gap, who signs, which budget line pays, and what happens if nobody buys.
+chapter: "02"
+status: in-review
+lastReviewed: 2026-09-21
+claims:
+  - eu-ai-act-high-risk-date
+  - eu-ai-act-logging
+  - gartner-ai-governance-spend
+  - digicert-incident-survey
+  - apple-pcc-google-cloud
+  - webbotauth-production
+  - webbotauth-adopters
+  - visa-tap-launch
+  - mastercard-agent-pay-launch
+  - x402-foundation
+---
+
+import Claim from '../../../components/Claim.astro';
+import GapPipeline from '../../../components/charts/GapPipeline.astro';
+import GapTable from '../../../components/GapTable.astro';
+
+Anyone can list technologies. What decides the shape of this market is three other questions:
+**who signs**, **which budget line pays**, and **what happens if nobody buys**. This chapter starts
+from demand: first what trust gaps agents actually open, then those three questions for each.
+
+## Terms used in this chapter
+
+No assumption that you have read the others. The full glossary is [chapter 01](/agent-trust-stack/en/01-glossary/).
+
+| Term | In one sentence |
+|---|---|
+| **TEE** | A locked room inside a CPU or GPU: the memory in it is ciphertext, unreadable even to the operating system and the cloud operator |
+| **Remote attestation** | The chip signs a report — "I am running this code, in this configuration" — with a key burned in at manufacture |
+| **Prompt injection** | Hiding instructions in a page, email or document the agent will read, so it executes them |
+| **zkTLS** | Proving that a particular sentence really came from a particular site, without the site's cooperation, and revealing only part of it |
+| **mandate** | A signed document stating who authorised what, up to what limit, until when — carried by the agent on every action |
+
+## 2.1 Three generations of trust, and where the burden moved
+
+Pull the word "trust" apart. Any computation asks you to trust three things: **who can see my data**,
+**whether the result was really computed**, and **whether anyone can be held to account afterwards**.
+These have had answers for twenty years. What keeps changing is who carries them.
+
+| | SaaS era (2010s) | LLM API era (2023–2025) | Agent era (2025–) |
+|---|---|---|---|
+| **Who touches my data** | Contract plus a SOC 2 report | Contract plus a zero-retention pledge | A contract no longer covers it: an agent's context mixes several tenants and several tools' return values, so **hardware isolation and attestation are needed** |
+| **Is the result trustworthy** | Deterministic code, re-runnable | Not reproducible, but a human reads every output | The human has left the loop, and **output becomes action** — an order placed, a config changed, an email sent |
+| **Who is accountable** | User account plus application logs | API key plus request logs | One task spans several services, models and tool endpoints, and **the identity and authorisation chain breaks** |
+| **New attack surface** | Credential theft, privilege escalation | Jailbreaks, data exfiltration | Prompt injection |
+
+Look at the last row. Prompt injection is a new class of problem because an agent **executes untrusted
+input as instructions** — the SaaS equivalent would be a server that runs whatever anyone writes into
+its database.
+
+It became a business because of scale. In a July 2026 DigiCert survey of 1,001 IT and security
+leaders, <Claim id="digicert-incident-survey" /> said their organisation had an AI-related security
+incident or found an AI vulnerability in the previous year. Note that this survey was published by a
+vendor selling into the same category and the instrument is not public, so what it supports is "this
+has entered procurement conversations", not a precise incident rate.
+
+## 2.2 The six trust gaps
+
+Rather than sorting by technology (TEE / ZK / FHE), sort by **where the data sits during one agent
+task** — because that is how buyers encounter the problem. This figure is the skeleton of the whole
+report; later chapters point back at it.
+
+<GapPipeline />
+
+Taking them one at a time:
+
+**1. Intake.** The agent reads a page or calls an API, and has no way to tell whether what came back
+is genuine — the page may have been forged for it, the response altered in transit. zkTLS addresses
+exactly this: proving content came from a particular TLS session without the site's cooperation.
+C2PA addresses the media version of the same gap, but note that it **does not detect** synthetic
+content; it records the signer's own assertion about whether AI was involved, so its truth depends
+on the signer's honesty.
+
+**2. Context and memory.** The one gap that was already mature before agents existed. What kept GPU
+clouds out of healthcare, finance and defence was never DDoS or credential theft — it was that a
+privileged process on the host can read model weights and inference inputs straight out of VRAM
+while the computation runs. TLS, disk encryption and firewalls do not help: **in VRAM the data is
+plaintext.** GPU TEEs close this gap.
+
+**3. Inference.** Is it really the model and weights you specified? There are two answers here, four
+orders of magnitude apart in cost: remote attestation (the hardware states which image hash it
+loaded) and zkML (a cryptographic proof that the computation followed a given circuit).
+[Chapter 03](/agent-trust-stack/en/03-cost/) puts numbers on it.
+
+**4. Action and tools.** The agent starts doing things: calling APIs, changing configuration, sending
+messages. The problem here is not confidentiality but **accountability** — who sent this request, who
+authorised it, where its limits are. This gap filled faster than any other in 2026; see 2.4.
+
+**5. Payment.** Once action involves money, the question becomes whether the principal authorised the
+spend. Three competing answers are in play: the payment networks' tokenised credentials, Google's
+signed mandates, and the stablecoin-native x402.
+
+**6. Record and proof.** Whether you can later prove what it did. The hard part is that the log must
+be **something the agent cannot alter** — a system that can rewrite its own audit record has no
+evidentiary value.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+Walk the pricing pages of the 2026 cohort of agent-security products. If revenue comes mostly from
+encrypted inference rather than identity, gateways and audit, this figure's centre of gravity is
+wrong. Executable check: classify the agent-related SKUs Fortanix, CrowdStrike, DigiCert and
+Cloudflare shipped in 2026.
+</div>
+
+## 2.3 What each gap is commercially worth
+
+Converted into procurement lines, the six gaps differ enormously:
+
+<GapTable />
+
+The last row deserves a pause. **Inference correctness is the only line in this table with no budget
+to pay for it.** Not because it lacks value, but because its value is currently priced in exactly one
+situation: mutually distrusting parties whose result is checked repeatedly. The enterprise buyer's
+pain is "will the cloud read my data", not "will the cloud quietly swap in a smaller model" — they
+manage the second with contracts and SLAs, not cryptography.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+Any of these would change this: (a) a major cloud turns inference-correctness proofs into a billable
+line item; (b) a sector regulator requires cryptographic evidence of the inference process; (c) a
+public "the model was silently downgraded" incident leads to class action.
+</div>
+
+## 2.4 Identity got pulled into a de-facto standard by the payment networks
+
+Gap 4 went from nothing to settled in twelve months, along a clear path:
+
+- Mastercard Agent Pay <Claim id="mastercard-agent-pay-launch" />, Visa Trusted Agent Protocol <Claim id="visa-tap-launch" />.
+- Cloudflare's Web Bot Auth <Claim id="webbotauth-production" /> went live in production at the edge, built on RFC 9421 HTTP Message Signatures and Ed25519 keys — **it contains no new cryptography at all**; both are pre-existing standards.
+- <Claim id="webbotauth-adopters" full /> It also became the authentication base for both payment networks above.
+- <Claim id="x402-foundation" full />
+
+There is an observation worth keeping here: **in this market, distribution is currently worth more
+than algorithms.** Visa and Mastercard did not need to invent anything. They needed to announce which
+signature they would accept, and that made it a standard.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If by mid-2027 requests carrying a <code>Signature-Agent</code> header remain below 1% of agent
+traffic, then "a payment network announcing a standard makes it one" is wrong and this layer is still
+contested. Executable check: Cloudflare Radar's bot and agent traffic breakdown, and the IETF working
+group's progress toward an RFC.
+</div>
+
+## 2.5 The only buyer with a hard date
+
+Most demand for trustworthy AI is soft — worth doing, ought to be done, can be deferred. Exactly one
+kind is hard: **not doing it is fined**.
+
+- Most EU AI Act obligations for high-risk systems apply from <Claim id="eu-ai-act-high-risk-date" />.
+- <Claim id="eu-ai-act-logging" full />
+- Penalties reach €15 million or 3% of worldwide annual turnover, whichever is higher.
+
+The financial consequence is already measured separately: AI governance platform spending at
+<Claim id="gartner-ai-governance-spend" />, a 45.3% CAGR, and in June 2026 Gartner made "AI governance
+platforms" a Magic Quadrant category of its own — meaning it stopped being a compliance activity and
+became a software line with its own budget.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If, in the year after August 2026, no EU authority issues a single penalty touching Article 12
+(missing logs), and enterprise AI-governance procurement grows at less than half the forecast rate,
+then "compliance is hard demand" is hollow. Executable check: the published enforcement records of
+national market surveillance authorities through Q3 2027.
+</div>
+
+## 2.6 An anchor more convincing than any market size
+
+Market-size figures in this sector are unreliable; the houses differ by an order of magnitude, and
+[chapter 03](/agent-trust-stack/en/03-cost/) lays the divergence out side by side. Here is a harder
+anchor instead, because it is **a specific purchase rather than a forecast**:
+
+<Claim id="apple-pcc-google-cloud" full />
+
+A company whose brand rests on privacy was willing to put its most sensitive inference inside a
+competitor's data centre. It was not buying contract terms — it could always have signed those.
+**It was buying remote attestation.**
+
+<div class="falsify">
+<strong>How to falsify</strong>
+Read Apple Security Research's <i>Expanding Private Cloud Compute</i> and check whether it gives an
+attestation chain a third party can verify: who signs the report, whether the public can check it,
+whether there is a transparency log. If the Google Cloud portion rests on Apple's own say-so with no
+publicly verifiable attestation, then "Apple was buying remote attestation" is wrong — it was buying
+contract and reputation after all.
+</div>
+
+## How to falsify (chapter summary)
+
+| Conclusion | What would overturn it |
+|---|---|
+| What agents newly demand is mostly not cryptography | 2026 agent-security revenue comes mainly from encrypted inference |
+| Inference correctness has no budget line | A cloud bills for it, or a regulator requires cryptographic evidence |
+| Distribution is worth more than algorithms | Signed agent traffic is still under 1% by mid-2027 |
+| Compliance is the only buyer with a hard date | No Article 12 penalty by Q3 2027 |
+| Apple was buying remote attestation | The Google Cloud portion has no publicly verifiable attestation chain |

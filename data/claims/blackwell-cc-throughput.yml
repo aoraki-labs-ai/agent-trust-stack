@@ -1,0 +1,17 @@
+id: blackwell-cc-throughput
+kind: quantity
+statement:
+  zh: NVIDIA Blackwell 在机密计算模式下的吞吐可达非安全配置的约 98%
+  en: NVIDIA Blackwell in confidential computing mode reaches roughly 98% of the throughput of a non-secure configuration
+value: { share_of_plaintext: 0.98 }
+display: { zh: "≈ 98%", en: "~98%" }
+tier: literature
+needs_primary_source: true
+sources: []
+notes:
+  zh: 继承自一份未公开的内部调研，尚未回溯到 NVIDIA 的一手基准文档。在补齐来源前不进入 claims.json 导出。
+  en: Inherited from an unpublished internal survey and not yet traced to NVIDIA's own benchmark documentation. Withheld from the claims.json export until sourced.
+falsifier:
+  zh: NVIDIA 或独立第三方公布的基准显示 Blackwell CC 模式吞吐低于非安全配置的 90%
+  en: A benchmark from NVIDIA or an independent party shows Blackwell CC mode below 90% of non-secure throughput
+review_by: 2026-12-01

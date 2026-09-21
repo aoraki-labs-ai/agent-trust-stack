@@ -1,0 +1,109 @@
+---
+title: 四条路线的真实代价
+description: 同一次推理，换一种「可信」手段，成本差四个数量级。附各家市场规模预测的分歧对照。
+chapter: "03"
+status: in-review
+lastReviewed: 2026-09-21
+claims:
+  - zkml-prove-overhead
+  - tee-gpu-overhead
+  - fhe-inference-overhead
+  - zkpytorch-prove-time
+  - zk-verify-cost
+  - confidential-computing-market-divergence
+---
+
+import Claim from '../../components/Claim.astro';
+import OverheadChart from '../../components/charts/OverheadChart.astro';
+
+[第 02 章](/agent-trust-stack/02-demand/)说明了 agent 新增了哪六类信任缺口。本章回答其中最贵的那一格：
+**给「推理」这件事加上可信性，到底要付多少钱。**
+
+## 本章用到的名词
+
+| 名词 | 一句话解释 |
+|---|---|
+| **zkML** | 把一次前向推理编成算术电路，为它生成零知识证明 |
+| **OPML / 乐观验证** | 先默认算对，挂一个挑战期；有人举报才重算仲裁 |
+| **FHE** | 数据全程是密文，服务器在密文上直接运算 |
+| **bootstrapping** | FHE 里用来「刷新」密文噪声的操作，是其主要开销来源 |
+| **电路膨胀** | 把浮点运算翻译成有限域算术时，运算量放大的倍数 |
+
+## 3.1 为什么这张图必须用对数轴
+
+先解释坐标轴，否则容易误读。如果用线性轴，TEE、哈希抽检、乐观验证三根会全部糊在最左边贴着零，
+而 zkML 和 FHE 会把图撑爆。**用对数轴，是因为这几条路线的代价本来就不在同一个量级上**——
+这正是要让你看到的事情。
+
+<OverheadChart />
+
+数据表与出处：
+
+| 手段 | 开销 | 额外代价 | 出处 |
+|---|---|---|---|
+| GPU TEE | <Claim id="tee-gpu-overhead" /> | 需要可信硬件厂商；物理攻击面见[第 07 章](/agent-trust-stack/07-cold-water/) | Equilibrium Labs |
+| 哈希抽检 | 1.05–1.20× | 只对确定性执行有效 | Equilibrium Labs |
+| 乐观验证 OPML | ≈ 1× | 结论要等挑战期；必须真的有人在盯 | Equilibrium Labs |
+| 随机重算 | 2–3× | 要求可复现；LLM 采样天然不满足 | Equilibrium Labs |
+| zkML | <Claim id="zkml-prove-overhead" /> | 浮点转有限域，电路膨胀 10³–10⁴ | Equilibrium Labs |
+| FHE | <Claim id="fhe-inference-overhead" /> | 只有 GPU 加速可买，ASIC 是 2027+ 的期权 | 尚缺一手来源 |
+| MPC 推理 | 分钟 / token | 通信轮次随模型深度增长 | 未入图：口径与「倍数」不可比 |
+
+MPC 那一行值得单独说明：它常被误引为 FHE 的数字。「加密 LLM 每 token 几分钟」这类广泛流传的说法，
+来源其实是 MPC 研究而非 FHE。
+
+## 3.2 把 zkML 的成本换算成 agent 的实际体验
+
+抽象倍数不好感知，换算一下。为一个 8B 模型生成证明的公开记录是
+<Claim id="zkpytorch-prove-time" />。一次普通的 agent 任务——读三个网页、调两个工具、写一段总结——
+轻松到 5,000 token。按线性外推（实际是超线性的，所以这是**下界**）：
+
+```
+5,000 token ÷ 75 token/批 × 3 小时/批 ≈ 200 小时 ≈ 8 天 / 单次任务
+```
+
+这不是「贵一点」，是**物理上不可能用于交互式 agent**。
+
+<div class="falsify">
+<strong>怎么证伪</strong>
+如果出现可复现的公开基准：单机为 7B 级模型的 1,000 token 生成证明进入<b>分钟级</b>
+（即相对当前提升 100 倍以上），那「zkML 不能用于交互式 agent」这个判断就作废，上面整段外推也随之作废。
+可执行的检查：盯 zkPyTorch / zkLLM 的后续版本与同类基准的公开数字。
+</div>
+
+## 3.3 生成极贵，验证极廉——这个不对称决定了 ZK 的用法
+
+反过来，证明的**验证**端便宜得惊人：<Claim id="zk-verify-cost" full />
+
+这种「生成极贵 / 验证极廉」的不对称，直接决定了 ZK 在 agent 场景里唯一现实的位置：
+**不给整条执行轨迹出证明，只给少数几个关键锚点出证明**——
+比如「这笔资金转移的授权条件成立」、「这个模型的哈希确实是承诺过的那个」。
+一条轨迹上如果只有三个锚点需要 ZK，成本就从 8 天回到秒级。
+
+这条推论同时解释了[第 02 章](/agent-trust-stack/02-demand/)里那个现象：
+为什么「推理正确性」找不到预算科目，而「审计与举证」有。后者恰好是锚点形态的需求。
+
+## 3.4 市场规模：先说口径，再说数字
+
+这个赛道的市场数字非常不可靠。下面这条记录的用途是**展示分歧本身**，不是给出规模依据：
+
+<Claim id="confidential-computing-market-divergence" full />
+
+同一个品类，2026 年的估值在不同机构之间相差可达一个数量级。本报告的处理办法是：
+**并排展示，禁止跨来源取平均**。如果你需要一个规模数字去做决策，
+这些预测都不足以支撑——去找具体的采购行为，比如[第 02 章](/agent-trust-stack/02-demand/) 2.6 节里的那一个。
+
+<div class="falsify">
+<strong>怎么证伪</strong>
+如果三家机构公布可比的口径定义（同样的品类边界与统计方法），且数字收敛到同一量级，
+那「这些预测不可用」的判断就该收回。可执行的检查：比对各家报告页公布的 scope 定义。
+</div>
+
+## 怎么证伪（本章汇总）
+
+| 结论 | 什么样的观测会推翻它 |
+|---|---|
+| 四条路线成本差四个数量级 | 独立基准显示 zkML 或 FHE 的开销落在 10× 以内 |
+| zkML 不能用于交互式 agent | 7B 模型 1,000 token 的证明进入分钟级 |
+| ZK 的现实位置是「锚点」而非「全轨迹」 | 出现端到端证明整条 agent 轨迹且延迟可接受的生产系统 |
+| 市场规模预测不可用 | 各家口径定义可比且数字收敛 |

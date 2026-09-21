@@ -1,0 +1,21 @@
+id: teefail-ddr5
+kind: event
+statement:
+  zh: TEE.Fail 是首个针对 DDR5 演示成功的内存总线插入攻击，研究者从开启 Ciphertext Hiding 的 Intel TDX 与 AMD SEV-SNP 上提取出密钥，部分案例包括处于「受信任」状态、完全打过补丁的机器上的证明密钥
+  en: TEE.Fail is the first memory-bus interposition attack demonstrated against DDR5; researchers extracted keys from Intel TDX and AMD SEV-SNP with Ciphertext Hiding, in some cases including attestation keys from fully patched machines in a trusted state
+tier: literature
+sources:
+  - url: https://tee.fail/
+    title: "TEE.Fail: Breaking Trusted Execution Environments via DDR5 Memory Bus Interposition"
+    publisher: TEE.Fail
+    type: primary
+    accessed: 2026-09-17
+  - url: https://www.bleepingcomputer.com/news/security/teefail-attack-breaks-confidential-computing-on-intel-amd-nvidia-cpus/
+    title: TEE.Fail attack breaks confidential computing on Intel, AMD, NVIDIA CPUs
+    publisher: BleepingComputer
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: 下一代内存加密引入新鲜度保护（如完整 Merkle 树或每行计数器），且第三方复现证明该类攻击失效
+  en: Next-generation memory encryption adds freshness protection and a third party reproduces the attack failing against it
+review_by: 2027-03-01

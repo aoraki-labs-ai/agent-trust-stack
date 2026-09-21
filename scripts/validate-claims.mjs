@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 
 const DIR = 'data/claims';
+const DATA_DIR = 'data';
 const errors = [];
 const warnings = [];
 const ids = new Set();
@@ -59,6 +60,17 @@ for (const file of readdirSync(DIR).filter((f) => f.endsWith('.yml'))) {
     );
   if (claim.needs_primary_source)
     warnings.push(`${path}: still owes a primary source (withheld from claims.json)`);
+}
+
+// Every dataset the site renders must parse too. An unquoted value containing
+// ": " is valid-looking YAML that fails only at render time — catch it here.
+for (const file of readdirSync(DATA_DIR).filter((f) => f.endsWith('.yml'))) {
+  const path = join(DATA_DIR, file);
+  try {
+    parse(readFileSync(path, 'utf8'));
+  } catch (e) {
+    errors.push(`${path}: unparseable YAML — ${e.message.split('\n')[0]}`);
+  }
 }
 
 for (const w of warnings) console.warn(`  warn  ${w}`);

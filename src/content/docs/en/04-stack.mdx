@@ -1,0 +1,67 @@
+---
+title: The stack, L0 to L4
+description: Five layers, each answering exactly one question. The lower you go the closer to physics and the more concentrated the vendors; the higher you go the closer to the business and the fiercer the competition.
+chapter: "04"
+status: in-review
+lastReviewed: 2026-09-21
+---
+
+import StackDiagram from '../../../components/StackDiagram.astro';
+
+Put the six gaps from [chapter 02](/agent-trust-stack/en/02-demand/) next to the costs from
+[chapter 03](/agent-trust-stack/en/03-cost/) and the industry's division of labour becomes legible.
+What follows is a **layer diagram**, not a product list — the list is
+[chapter 05](/agent-trust-stack/en/05-ecosystem/).
+
+## Terms used in this chapter
+
+| Term | In one sentence |
+|---|---|
+| **Remote attestation** | The chip signs a report stating which code and configuration it is running |
+| **NRAS** | NVIDIA's attestation service, which verifies workload integrity before execution |
+| **Confidential VM** | A whole virtual machine inside a TEE, rather than a single process |
+| **TEE-I/O** | Extending the TEE's protection onto the buses between devices, not just memory |
+
+## The five layers
+
+Border colours follow the report's families: blue for hardware root of trust, orange for
+cryptography, green for protocol and governance.
+
+<StackDiagram />
+
+## How to read it
+
+**Going up, the number of products grows, unit prices fall, and things get easier to replace.**
+
+- **L0 is the most concentrated.** The vendors capable of GPU confidential computing can be counted
+  on one hand. The moat here is the ability to tape out silicon — which also means any flaw at this
+  layer (see [chapter 07](/agent-trust-stack/en/07-cold-water/)) propagates to every layer above.
+- **L1 holds the only seam.** Remote attestation belongs to confidentiality and verifiability at
+  once: it is itself a statement about hardware state that a third party can check. It is the only
+  thing in the stack that upgrades "trust me" into "check for yourself".
+- **L2 is the hardest place to stand.** Standardised from above by L3, and squeezed from below as
+  silicon vendors move up. A cloud can simply make L2 a VM type, leaving independent vendors
+  compressed between the two.
+- **L3 is a standards war.** Three parallel proposals from the payment networks, the CDNs and the
+  Ethereum community; see section 2.4 of [chapter 02](/agent-trust-stack/en/02-demand/).
+- **L4 has the most certain budget.** It contains almost no new cryptography — process, logs and
+  credential management — yet it is the only layer with a regulatory deadline attached.
+
+Standing at L0–L1 is a technology moat; standing at L3–L4 is a distribution moat. L2 is hardest
+because it has neither.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If an independent L2 vendor sustains high margins without being absorbed by the clouds — public
+accounts showing gross margin steady above 70% and net retention above 120%, say — then "L2 is the
+hardest place to stand" does not hold, and it may be the control point instead. Executable check:
+follow the L2 companies that are listed or disclose financials.
+</div>
+
+## How to falsify (chapter summary)
+
+| Conclusion | What would overturn it |
+|---|---|
+| L2 is the hardest place to stand | An L2 vendor sustains high margins without being absorbed |
+| Attestation is the stack's only seam | Something lets a third party verify confidentiality without hardware attestation |
+| Competition intensifies further up | Three or more credible new entrants appear at L0 |

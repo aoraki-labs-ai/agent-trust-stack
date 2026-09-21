@@ -1,0 +1,87 @@
+---
+title: 生态地图：六个阵营
+description: 谁在卖什么、卖给谁、拿了多少钱。以及一个反直觉的观察：拿钱最多的阵营，对应的是唯一一条没有预算科目的需求线。
+chapter: "05"
+status: in-review
+lastReviewed: 2026-09-21
+claims:
+  - fortanix-customers
+  - webbotauth-adopters
+  - x402-foundation
+  - apple-pcc-google-cloud
+  - anthropic-zdr-retention
+  - openai-private-safety-processing
+---
+
+import Claim from '../../components/Claim.astro';
+import VendorTable from '../../components/VendorTable.astro';
+
+[第 04 章](/agent-trust-stack/04-stack/)给了分层，本章给名字。「缺口」一列对应
+[第 02 章](/agent-trust-stack/02-demand/)那张图里的编号。
+
+## 本章用到的名词
+
+| 名词 | 一句话解释 |
+|---|---|
+| **数据洁净室** | 两家公司把数据放进一个谁都进不去的房间，只取走聚合结果 |
+| **机密 EVM** | 智能合约的状态与输入对验证者也保密的区块链执行环境 |
+| **agent sandbox** | 在机密虚拟机里跑 agent 后端，配密封密钥、私有内存与可验证执行 |
+| **零数据保留（ZDR）** | 模型厂商承诺不留存 prompt 与输出、不用于训练、员工不看 |
+
+## 六个阵营
+
+<VendorTable />
+
+## 三个值得停下来的观察
+
+### 一 · 拿钱最多的阵营，对着的是唯一没有预算科目的缺口
+
+把表竖着看：第五阵营（可验证推理与密码学）的公开融资额是六个阵营里最集中的，
+而它对应的缺口 ③「推理正确性」，正是[第 02 章](/agent-trust-stack/02-demand/)那张成色表里唯一一条
+标注「尚无买家」的线。
+
+相对地，第六阵营（Agent 身份与治理）几乎不涉及新密码学——RFC 9421 与 Ed25519 都是既有标准——
+却在 12 个月内被三家支付网络、一家 CDN 和四家安全厂商同时压上。
+
+这不是说密码学没用，而是说：**在这个赛道里，分发渠道的价值当前高于算法的价值。**
+Visa 和 Mastercard 不需要发明任何东西，他们只需要宣布「我们认这种签名」，标准就成立了。
+
+### 二 · 模型厂商正在把机密计算变成产品特性
+
+第三阵营是 2026 年最大的变化。<Claim id="apple-pcc-google-cloud" full />
+
+与此同时：<Claim id="openai-private-safety-processing" full />
+而 <Claim id="anthropic-zdr-retention" full />
+
+三家的共同点是：**承诺很强，技术细节没有公布**。
+这个「承诺 → 可验证」之间的空白，正是[第 07 章](/agent-trust-stack/07-cold-water/) 7.3 的主题，
+也是机密计算真正的市场空间。
+
+### 三 · 厂商自述的数字要打折读
+
+表里有几条来自厂商自己的口径，例如 <Claim id="fortanix-customers" />。
+本报告把这类来源统一标注为「厂商」级，因为**对自身有利的数字系统性偏乐观**：
+「服务超过 100 家机构」可能包含试用、POC 与免费层，与「100 家付费客户」不是一回事。
+
+<div class="falsify">
+<strong>怎么证伪</strong>
+如果到 2027 年中，带 <code>Signature-Agent</code> 头的请求仍不足 agent 流量的 1%，
+说明「分发渠道价值高于算法价值」是错的，L3 仍在混战。
+可执行的检查：Cloudflare Radar 的 bot / agent 流量分项，以及 IETF 该工作组的 RFC 进度。
+</div>
+
+## 已知的覆盖缺口
+
+**本章完全没有覆盖中国与亚太生态。** 蚂蚁的隐语（SecretFlow）、微众的 FATE、
+昇腾与鲲鹏的 TEE、阿里的机密计算实例——一个都还没查。这是本报告当前最大的地理盲区，
+也是计划中的主要差异点：现有的英文报告普遍看不懂这一块。
+
+在补上之前，请把本章读作「西方生态地图」而不是「全球生态地图」。
+
+## 怎么证伪（本章汇总）
+
+| 结论 | 什么样的观测会推翻它 |
+|---|---|
+| 分发渠道价值高于算法价值 | 2027 年中签名 agent 流量仍不足 1% |
+| 模型厂商的保密承诺不可验证 | 任一家公布客户可独立验证的 attestation 流程 |
+| 厂商自述客户数偏乐观 | 独立来源证实付费客户数与自述量级一致 |

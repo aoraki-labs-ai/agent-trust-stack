@@ -1,0 +1,21 @@
+id: fortanix-customers
+kind: quantity
+statement:
+  zh: Fortanix 自述服务超过 100 家机构，客户包括 Google、Equinix、GE Healthcare、PayPal
+  en: Fortanix says it serves more than 100 organisations, naming Google, Equinix, GE Healthcare and PayPal among its customers
+value: { organisations: 100, self_reported: true }
+display: { zh: "100+ 家（自述）", en: "100+ (self-reported)" }
+tier: literature
+sources:
+  - url: https://www.fortanix.com/platform/confidential-ai
+    title: Confidential AI
+    publisher: Fortanix
+    type: vendor
+    accessed: 2026-09-17
+notes:
+  zh: 厂商自述客户数，未经独立核实。此类数字系统性偏乐观。
+  en: A self-reported customer count, not independently verified. Such figures are systematically optimistic.
+falsifier:
+  zh: 独立来源（财报、客户案例库）显示实际付费客户数显著低于该数量级
+  en: An independent source shows a materially smaller paying customer base
+review_by: 2027-03-01

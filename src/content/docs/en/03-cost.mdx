@@ -1,0 +1,116 @@
+---
+title: What each route really costs
+description: The same inference, made trustworthy four different ways, costs four orders of magnitude apart. With the market-size forecasts laid side by side to show how far they diverge.
+chapter: "03"
+status: in-review
+lastReviewed: 2026-09-21
+claims:
+  - zkml-prove-overhead
+  - tee-gpu-overhead
+  - fhe-inference-overhead
+  - zkpytorch-prove-time
+  - zk-verify-cost
+  - confidential-computing-market-divergence
+---
+
+import Claim from '../../../components/Claim.astro';
+import OverheadChart from '../../../components/charts/OverheadChart.astro';
+
+[Chapter 02](/agent-trust-stack/en/02-demand/) set out the six trust gaps agents open. This chapter
+answers the most expensive of them: **what it actually costs to make inference itself trustworthy.**
+
+## Terms used in this chapter
+
+| Term | In one sentence |
+|---|---|
+| **zkML** | Compiling one forward pass into an arithmetic circuit and generating a zero-knowledge proof of it |
+| **OPML / optimistic verification** | Assume correctness, open a challenge window, re-execute only on dispute |
+| **FHE** | The data stays encrypted throughout; the server computes directly on ciphertext |
+| **bootstrapping** | The operation that refreshes ciphertext noise in FHE, and its dominant cost |
+| **circuit blow-up** | How much the operation count multiplies when floating point is translated into finite-field arithmetic |
+
+## 3.1 Why this figure needs a logarithmic axis
+
+The axis first, or the figure reads wrong. On a linear axis, TEE, hashed spot-checks and optimistic
+verification would all collapse against zero at the left while zkML and FHE burst out of the frame.
+**The axis is logarithmic because these routes are genuinely not the same order of magnitude** — and
+that is the thing to see.
+
+<OverheadChart />
+
+The numbers and where they come from:
+
+| Approach | Overhead | What else it costs | Source |
+|---|---|---|---|
+| GPU TEE | <Claim id="tee-gpu-overhead" /> | Requires a trusted silicon vendor; the physical attack surface is in [chapter 07](/agent-trust-stack/en/07-cold-water/) | Equilibrium Labs |
+| Hashed spot-checks | 1.05-1.20x | Only works for deterministic execution | Equilibrium Labs |
+| Optimistic (OPML) | ~1x | Finality waits for the challenge window, and someone must actually watch | Equilibrium Labs |
+| Random re-execution | 2-3x | Requires reproducibility, which LLM sampling does not give you | Equilibrium Labs |
+| zkML | <Claim id="zkml-prove-overhead" /> | Floating point into finite fields, a 10³–10⁴ circuit blow-up | Equilibrium Labs |
+| FHE | <Claim id="fhe-inference-overhead" /> | GPU acceleration is all you can buy; ASICs are a 2027+ option | Source still owed |
+| MPC inference | minutes per token | Communication rounds grow with model depth | Not plotted: not comparable to a multiplier |
+
+The MPC row deserves a note, because it is routinely misattributed. The widely repeated line about
+"minutes per token for encrypted LLMs" comes from MPC research, not from FHE.
+
+## 3.2 Converting zkML's cost into what an agent would actually feel
+
+Multipliers are hard to feel, so convert them. The published figure for proving an 8B model is
+<Claim id="zkpytorch-prove-time" />. An ordinary agent task — read three pages, call two tools, write
+a summary — reaches 5,000 tokens without trying. Extrapolating linearly, and the real curve is
+superlinear, so this is a **lower bound**:
+
+```
+5,000 tokens ÷ 75 per batch × 3 hours per batch ≈ 200 hours ≈ 8 days per task
+```
+
+That is not "somewhat expensive". It is **physically unusable for an interactive agent**.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If a reproducible public benchmark proves 1,000 tokens of a 7B-class model on a single machine in
+<b>minutes</b> — a hundredfold improvement on today — then "zkML cannot be used for interactive
+agents" is dead, and so is the extrapolation above. Executable check: follow the published numbers
+from successive zkPyTorch and zkLLM releases and comparable benchmarks.
+</div>
+
+## 3.3 Proving is brutal, verifying is nearly free — and that asymmetry decides how ZK gets used
+
+The other side is startlingly cheap: <Claim id="zk-verify-cost" full />
+
+This asymmetry — expensive to produce, trivial to check — dictates the only realistic place for ZK in
+an agent system: **not a proof of the whole execution trace, but proofs of a few decisive anchors**.
+That a transfer's authorisation conditions held. That the model hash really was the committed one.
+If only three points on a trace need ZK, the cost falls from eight days back to seconds.
+
+The same asymmetry explains the pattern in [chapter 02](/agent-trust-stack/en/02-demand/): why
+inference correctness cannot find a budget line while audit and evidence can. The latter is already
+anchor-shaped.
+
+## 3.4 Market size: scope first, numbers second
+
+The market figures in this sector are unreliable. The record below exists to **show the divergence**,
+not to supply a size estimate:
+
+<Claim id="confidential-computing-market-divergence" full />
+
+For a single category, 2026 estimates differ between houses by up to an order of magnitude. This
+report's policy is to **place them side by side and never average across them**. If you need a size
+number to make a decision, none of these forecasts will support it — look for a specific purchase
+instead, such as the one in section 2.6 of [chapter 02](/agent-trust-stack/en/02-demand/).
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If the houses publish comparable scope definitions and their figures converge to one order of
+magnitude, the judgement that these forecasts are unusable should be withdrawn. Executable check:
+compare the scope definitions on each report page.
+</div>
+
+## How to falsify (chapter summary)
+
+| Conclusion | What would overturn it |
+|---|---|
+| The four routes differ by four orders of magnitude | An independent benchmark puts zkML or FHE within 10x |
+| zkML cannot serve interactive agents | 1,000 tokens of a 7B model proved in minutes |
+| ZK belongs at anchors, not whole traces | A production system proves an entire agent trace at acceptable latency |
+| The market forecasts are unusable | The houses' scopes become comparable and their numbers converge |

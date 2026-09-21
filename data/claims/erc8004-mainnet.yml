@@ -1,0 +1,17 @@
+id: erc8004-mainnet
+kind: event
+statement:
+  zh: ERC-8004 于 2025-08-13 提出，2026-01-29 在以太坊主网上线，定义身份、信誉、验证三本登记簿
+  en: ERC-8004 was proposed on 2025-08-13 and went live on Ethereum mainnet on 2026-01-29, defining identity, reputation and validation registries
+value: { proposed: 2025-08-13, mainnet: 2026-01-29 }
+tier: literature
+sources:
+  - url: https://github.com/erc-8004/erc-8004-contracts
+    title: erc-8004-contracts
+    publisher: ERC-8004
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: 链上查不到对应部署交易，或提案被撤回
+  en: No corresponding deployment transaction exists on chain, or the proposal is withdrawn
+review_by: 2027-03-01

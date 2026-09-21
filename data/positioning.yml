@@ -1,0 +1,102 @@
+# Chapter 06. Both axes are scored 0-3 against the published rubric, so anyone
+# can re-score and overturn the placement. This is judgement, not measurement.
+#   x = procurability     0 papers only · 1 open source runs · 2 hosted service or testnet · 3 cloud GA or in production
+#   y = payment pressure  0 no buyer · 1 ecosystem subsidy · 2 enterprise pilot budget · 3 compliance-forced or in a catalogue
+- label: { zh: GPU 机密计算（TEE）, en: GPU confidential computing (TEE) }
+  x: 2.95
+  y: 2.95
+  family: hardware
+  anchor: end
+  dx: -15
+  dy: -13
+- label: { zh: 企业机密计算平台, en: Enterprise confidential computing platforms }
+  x: 2.85
+  y: 2.35
+  family: hardware
+  anchor: end
+  dx: -13
+  dy: -13
+- label: { zh: AI 治理与审计日志, en: AI governance and audit logging }
+  x: 2.55
+  y: 2.90
+  family: protocol
+  anchor: end
+  dx: -13
+  dy: 4
+- label: { zh: 数据洁净室, en: Data clean rooms }
+  x: 2.75
+  y: 1.70
+  family: hardware
+  anchor: end
+  dx: -13
+  dy: 4
+- label: { zh: 代理支付协议, en: Agent payment protocols }
+  x: 2.40
+  y: 2.20
+  family: protocol
+  anchor: start
+  dx: 13
+  dy: -1
+- label: { zh: Agent 身份 / 签名流量, en: Agent identity and signed traffic }
+  x: 2.30
+  y: 1.90
+  family: protocol
+  anchor: start
+  dx: 13
+  dy: 4
+- label: { zh: 内容凭证 C2PA, en: Content credentials (C2PA) }
+  x: 2.20
+  y: 1.55
+  family: protocol
+  anchor: start
+  dx: 13
+  dy: 4
+- label: { zh: 联邦学习 + 差分隐私, en: Federated learning and differential privacy }
+  x: 2.50
+  y: 1.35
+  family: crypto
+  anchor: start
+  dx: 13
+  dy: 4
+- label: { zh: 去中心化 TEE 云, en: Decentralised TEE clouds }
+  x: 2.15
+  y: 1.00
+  family: hardware
+  anchor: end
+  dx: -13
+  dy: 4
+- label: { zh: zkTLS, en: zkTLS }
+  x: 1.70
+  y: 1.15
+  family: crypto
+  anchor: start
+  dx: 13
+  dy: -5
+- label: { zh: zkML 可验证推理, en: zkML verifiable inference }
+  x: 1.20
+  y: 0.85
+  family: crypto
+  anchor: start
+  dx: 13
+  dy: 4
+- label: { zh: FHE 推理, en: FHE inference }
+  x: 0.80
+  y: 0.60
+  family: crypto
+  anchor: start
+  dx: 13
+  dy: 4
+- label: { zh: MPC 推理, en: MPC inference }
+  x: 0.45
+  y: 0.45
+  family: crypto
+  anchor: end
+  dx: -13
+  dy: 4
+- label: { zh: ERC-8004 链上信誉, en: ERC-8004 on-chain reputation }
+  x: 1.00
+  y: 0.35
+  family: protocol
+  anchor: start
+  dx: 13
+  dy: 4

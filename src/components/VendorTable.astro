@@ -1,0 +1,85 @@
+---
+import { dataset, t, type Bi } from '../lib/data';
+
+interface Member {
+  name: string;
+  sells: Bi;
+  gaps: number[];
+  scale: Bi;
+  claim?: string;
+}
+interface Camp {
+  camp: Bi;
+  role: Bi;
+  members: Member[];
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const camps = dataset<Camp[]>('vendors');
+const circled = ['①', '②', '③', '④', '⑤', '⑥'];
+const head = {
+  zh: ['阵营', '代表', '卖什么', '缺口', '已知规模 / 融资'],
+  en: ['Camp', 'Who', 'What they sell', 'Gaps', 'Known scale or funding'],
+}[lang];
+---
+
+<div class="tbl-wrap">
+  <table class="vendors">
+    <thead><tr>{head.map((h) => <th>{h}</th>)}</tr></thead>
+    <tbody>
+      {
+        camps.map((camp, ci) =>
+          camp.members.map((m, mi) => (
+            <tr class={mi === 0 && ci > 0 ? 'vendors__camp-start' : undefined}>
+              {mi === 0 && (
+                <td rowspan={camp.members.length}>
+                  <b>{t(camp.camp, lang)}</b>
+                  <span class="vendors__role">{t(camp.role, lang)}</span>
+                </td>
+              )}
+              <td>{m.name}</td>
+              <td>{t(m.sells, lang)}</td>
+              <td class="vendors__gaps">{m.gaps.map((g) => circled[g - 1]).join('')}</td>
+              <td>{t(m.scale, lang)}</td>
+            </tr>
+          ))
+        )
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-block: 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  .vendors {
+    width: 100%;
+    min-width: 760px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: var(--sl-text-sm);
+  }
+  .vendors th,
+  .vendors td {
+    padding: 0.55rem 0.75rem;
+    text-align: start;
+    vertical-align: top;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+  }
+  .vendors thead th {
+    background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+    white-space: nowrap;
+  }
+  .vendors__camp-start td { border-top: 2px solid var(--sl-color-gray-5); }
+  .vendors__role {
+    display: block;
+    margin-top: 0.15rem;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+  }
+  .vendors__gaps { white-space: nowrap; letter-spacing: 0.1em; }
+</style>

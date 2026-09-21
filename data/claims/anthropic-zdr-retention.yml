@@ -1,0 +1,17 @@
+id: anthropic-zdr-retention
+kind: status
+statement:
+  zh: Anthropic 的零数据保留方案自 2026-06-09 起对覆盖模型仍保留 30 天，用于安全工作
+  en: Anthropic's zero-data-retention offering still retains prompts and outputs for covered models for 30 days as of 2026-06-09, for safety work
+value: { retention_days: 30, effective: 2026-06-09 }
+tier: literature
+sources:
+  - url: https://barczentewicz.com/post/openai-and-anthropic-beef-up-customer-data-confidentiality-for-frontier-models-but-details-lacking/
+    title: OpenAI and Anthropic beef up customer data confidentiality for frontier models, but details lacking
+    publisher: "Mikołaj Barczentewicz"
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: Anthropic 官方条款页面显示覆盖模型的保留期为零，或公布了可被客户独立验证的 attestation 流程
+  en: Anthropic's own terms show zero retention for covered models, or it publishes an independently verifiable attestation procedure
+review_by: 2026-12-01

@@ -1,0 +1,145 @@
+---
+title: Three buckets of cold water
+description: On-chain verifiable agents are running on empty, the hardware root of trust has been hit directly by physical attacks, and zero data retention is a contract rather than cryptography.
+chapter: "07"
+status: in-review
+lastReviewed: 2026-09-21
+claims:
+  - erc8004-mainnet
+  - erc8004-functional-rate
+  - erc8004-validation-registry-absent
+  - erc8004-attack-cost
+  - erc8004-sybil-reviewers
+  - teefail-ddr5
+  - wiretap-batteringram
+  - openai-private-safety-processing
+  - anthropic-zdr-retention
+---
+
+import Claim from '../../../components/Claim.astro';
+
+The previous six chapters covered what this field is doing. This one covers what it cannot do.
+**The largest risk here is not that the technology is hard; it is that the narrative has run far
+ahead of delivery.**
+
+## Terms used in this chapter
+
+| Term | In one sentence |
+|---|---|
+| **Sybil attack** | One party forging many identities to manufacture the appearance of consensus |
+| **Deterministic memory encryption** | The same plaintext always encrypts to the same ciphertext, so it can be compared and replayed |
+| **Freshness protection** | Preventing an attacker from replaying an old but legitimate ciphertext as the current value |
+| **Ciphertext Hiding** | An AMD mechanism intended to mitigate ciphertext-comparison attacks |
+| **Attestation signing key** | The private key a chip uses to sign attestation reports; leak it and any attestation can be forged |
+
+## 7.1 On-chain verifiable agents are running on empty
+
+ERC-8004 is the crypto ecosystem's affirmative answer to trustworthy agents: three registries for
+identity, reputation and validation. <Claim id="erc8004-mainnet" full />
+
+The momentum sounds good. An empirical study published in 2026 pulled the on-chain data from three
+chains, and the picture is poor:
+
+<Claim id="erc8004-functional-rate" full />
+
+<Claim id="erc8004-sybil-reviewers" full />
+
+<Claim id="erc8004-attack-cost" full />
+
+But this is the decisive one:
+
+<Claim id="erc8004-validation-registry-absent" full />
+
+**The Validation Registry is the only one of the three that carries cryptographic and TEE-backed
+proofs.** It is not live, which means the whole system's notion of reputation currently rests on
+**client feedback that costs nothing to forge**. Less than one cent rewrites the score of an agent
+handling hundreds of dollars.
+
+Put differently: of well over a hundred thousand on-chain agent identities, the genuinely verifiable
+portion is zero. That does not make the direction wrong. It means the system is at the stage where
+**registration is free so everyone registered**, and is a full order of magnitude of engineering away
+from anyone depending on it for a decision.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+Look up the Validation Registry's mainnet contract addresses and call counts on Ethereum, Base and
+BSC. If it is deployed and taking thousands of calls a month, this section is out of date and should
+be rewritten. Note the study window ends 2026-05 while this report's snapshot is 2026-09; the four
+months between have not been re-checked.
+</div>
+
+## 7.2 The hardware root of trust has been hit directly
+
+"Hardware root of trust" sounds immovable. Two rounds of work show it is not:
+
+<Claim id="wiretap-batteringram" full />
+
+<Claim id="teefail-ddr5" full />
+
+Within hours of disclosure, several decentralised projects depending on TEEs issued emergency updates
+and migration plans.
+
+### But the threat model has to be stated, or this misleads
+
+All of these attacks require **physical access to the memory bus**. That makes the security of two
+deployment shapes genuinely different:
+
+- Inside a major cloud's data centre, the threat model is "the provider's staff or supply chain" — a
+  high bar, legally constrained, physically guarded, and manageable.
+- In a **decentralised TEE network**, the node operator is the party being defended against, and
+  operators have **complete physical access to their own machines by construction** — which is exactly
+  the precondition these attacks need.
+
+Same silicon, same attestation report, radically different security depending on deployment shape.
+This is the question the decentralised-confidential-computing narrative has to answer directly, not
+wave past with "we use TEEs too".
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If the next platform generation introduces memory encryption with freshness protection — a full
+Merkle tree or per-line counters — and a third party reproduces the attack failing against it, then
+"physical attack is a structural problem for decentralised TEEs" downgrades to "a problem with one
+hardware generation". Executable check: follow tee.fail's mitigations page and both silicon vendors'
+security advisory numbers.
+</div>
+
+## 7.3 Zero data retention is a contract, not cryptography
+
+Both frontier model vendors strengthened their enterprise confidentiality offers in 2026:
+
+<Claim id="openai-private-safety-processing" full />
+
+<Claim id="anthropic-zdr-retention" full />
+
+The decisive fact: **neither published implementation detail.** Outside commentary broadly hopes a
+correctly configured TEE sits behind this, but there is currently no evidence a third party can check.
+
+Two different things are worth separating:
+
+| | Contractual promise | Cryptographic or hardware guarantee |
+|---|---|---|
+| Rests on | The other party's willingness and legal exposure | The other party's capability boundary |
+| Can an insider bypass it | Yes, at a cost | No, or only via physical attack |
+| Can you verify it yourself | No, only pursue it afterwards | Yes, through remote attestation |
+
+**Zero data retention sits in the left column.** It is not false, but it is a different thing from "the
+provider is cryptographically unable to read your data". That gap is precisely the market for
+confidential computing, and it is why Apple's move in section 2.6 of
+[chapter 02](/agent-trust-stack/en/02-demand/) matters: in this market, the only thing that upgrades
+"trust me" into "check for yourself" is remote attestation.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If either vendor publishes an attestation procedure customers can verify independently — measurements,
+a signature chain, tooling — then "a promise is not verification" stops being their shortcoming and
+this section needs rewriting. Executable check: whether their enterprise privacy and trust centre
+pages gain an attestation section.
+</div>
+
+## How to falsify (chapter summary)
+
+| Conclusion | What would overturn it |
+|---|---|
+| On-chain verifiable agents are running on empty | The Validation Registry deploys and takes thousands of calls a month |
+| Physical attack is structural for decentralised TEEs | Next-generation memory encryption adds freshness and defeats the attack |
+| Zero data retention is not verification | OpenAI or Anthropic publishes a customer-checkable attestation procedure |

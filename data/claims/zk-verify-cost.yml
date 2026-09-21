@@ -1,0 +1,17 @@
+id: zk-verify-cost
+kind: quantity
+statement:
+  zh: ZK 证明的验证端极廉：zkCNN 的证明大小约 341 KB、验证者耗时约 59.3 毫秒；MobileNet v2 的验证约 10.27 秒
+  en: "Verifying a ZK proof is very cheap: zkCNN produces a 341 KB proof verified in about 59.3 ms, and MobileNet v2 verifies in about 10.27 s"
+value: { zkcnn_proof_bytes: 341000, zkcnn_verify_ms: 59.3, mobilenetv2_verify_s: 10.27 }
+display: { zh: "59.3 ms / 341 KB", en: "59.3 ms / 341 KB" }
+tier: literature
+needs_primary_source: true
+sources: []
+notes:
+  zh: 继承自一份未公开的内部调研，尚未回溯到 zkCNN 原论文。在补齐来源前不进入 claims.json 导出。
+  en: Inherited from an unpublished internal survey and not yet traced to the zkCNN paper. Withheld from the claims.json export until sourced.
+falsifier:
+  zh: zkCNN 原论文给出的验证耗时与证明大小与此不符
+  en: The zkCNN paper reports a materially different verification time or proof size
+review_by: 2026-12-01

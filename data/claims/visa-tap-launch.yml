@@ -1,0 +1,17 @@
+id: visa-tap-launch
+kind: event
+statement:
+  zh: Visa 于 2025-10-14 发布 Trusted Agent Protocol（TAP），为 AI 代理交易定义生态级认证框架
+  en: Visa published the Trusted Agent Protocol on 2025-10-14, an ecosystem-level authentication framework for AI agent transactions
+value: { date: 2025-10-14 }
+tier: literature
+sources:
+  - url: https://investor.visa.com/news/news-details/2025/Visa-Introduces-Trusted-Agent-Protocol-An-Ecosystem-Led-Framework-for-AI-Commerce/default.aspx
+    title: Visa Introduces Trusted Agent Protocol
+    publisher: Visa
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: Visa 撤回该协议，或在 2027 年前没有任何商户完成接入
+  en: Visa withdraws the protocol, or no merchant has integrated it by 2027
+review_by: 2027-06-01

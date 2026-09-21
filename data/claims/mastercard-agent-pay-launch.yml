@@ -1,0 +1,17 @@
+id: mastercard-agent-pay-launch
+kind: event
+statement:
+  zh: Mastercard 于 2025-04-29 发布 Agent Pay，用「代理令牌」让经过验证的 AI 代理代表消费者交易
+  en: Mastercard published Agent Pay on 2025-04-29, letting verified AI agents transact on a consumer's behalf using agentic tokens
+value: { date: 2025-04-29 }
+tier: literature
+sources:
+  - url: https://www.mastercard.com/news/press/2025/april/mastercard-unveils-agent-pay-pioneering-agentic-payments-technology-to-power-commerce-in-the-age-of-ai/
+    title: Mastercard Unveils Agent Pay
+    publisher: Mastercard
+    type: primary
+    accessed: 2026-09-17
+falsifier:
+  zh: Mastercard 停止该产品线，或与 Visa TAP 合并为单一标准
+  en: Mastercard discontinues the product line, or it merges with Visa TAP into a single standard
+review_by: 2027-06-01

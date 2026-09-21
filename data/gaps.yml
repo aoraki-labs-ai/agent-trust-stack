@@ -1,0 +1,108 @@
+# The six places trust breaks in one agent task, in the order data flows through it.
+# family: hardware | crypto | protocol  — drives the colour in every figure.
+- id: input
+  n: 1
+  name: { zh: 取数 / 感知, en: Intake }
+  question:
+    zh: 这条信息真来自它声称的来源吗？
+    en: Did this really come from the source it claims?
+  threat:
+    zh: 伪造页面、投毒内容
+    en: Forged pages, poisoned content
+  flow_out: { zh: 数据, en: data }
+  techs:
+    - { label: zkTLS, family: crypto }
+    - { label: { zh: C2PA 内容凭证, en: C2PA content credentials }, family: protocol }
+    - { label: { zh: 来源签名, en: Source signing }, family: protocol }
+  buyer: { zh: 产品 / 风控, en: Product / fraud }
+  budget: { zh: 反欺诈, en: Anti-fraud }
+  maturity: early
+
+- id: context
+  n: 2
+  name: { zh: 上下文 / 记忆, en: Context and memory }
+  question:
+    zh: 我的 prompt 和记忆谁能看见？
+    en: Who can see my prompts and memory?
+  threat:
+    zh: 云管理员读走显存
+    en: A cloud operator reads the VRAM
+  flow_out: { zh: 上下文, en: context }
+  techs:
+    - { label: GPU TEE, family: hardware }
+    - { label: { zh: 数据洁净室, en: Data clean rooms }, family: hardware }
+    - { label: FHE / MPC, family: crypto }
+  buyer: { zh: CISO / 合规, en: CISO / compliance }
+  budget: { zh: 安全基础设施、云支出, en: Security infrastructure, cloud spend }
+  maturity: settled
+
+- id: inference
+  n: 3
+  name: { zh: 推理, en: Inference }
+  question:
+    zh: 跑的真是那个模型和权重吗？
+    en: Is it really that model, with those weights?
+  threat:
+    zh: 偷换小模型、改系统提示
+    en: A smaller model swapped in, a rewritten system prompt
+  flow_out: { zh: 决策, en: decision }
+  techs:
+    - { label: { zh: 远程证明, en: Remote attestation }, family: hardware }
+    - { label: zkML, family: crypto }
+    - { label: { zh: 乐观验证 / 抽检, en: Optimistic and sampled checks }, family: protocol }
+  buyer: { zh: （密码学意义上的正确性暂无买家）, en: (no buyer yet for cryptographic correctness) }
+  budget: { zh: 暂无独立科目, en: No budget line of its own }
+  maturity: unpriced
+
+- id: action
+  n: 4
+  name: { zh: 行动 / 工具, en: Action and tools }
+  question:
+    zh: 这个 agent 是谁？谁授权它？
+    en: Who is this agent, and who authorised it?
+  threat:
+    zh: 提示注入夺权、越权调用
+    en: Prompt injection takes over, calls beyond its scope
+  flow_out: { zh: 订单, en: order }
+  techs:
+    - { label: Web Bot Auth, family: protocol }
+    - { label: { zh: DID / VC 凭证, en: DID / VC credentials }, family: protocol }
+    - { label: { zh: 范围化 token, en: Scoped tokens }, family: protocol }
+  buyer: { zh: CISO / 平台团队, en: CISO / platform }
+  budget: { zh: IAM 续费包, en: IAM renewal }
+  maturity: settled
+
+- id: payment
+  n: 5
+  name: { zh: 支付 / 结算, en: Payment }
+  question:
+    zh: 这笔钱是本人授权的吗？
+    en: Did the principal authorise this spend?
+  threat:
+    zh: 冒名代付、超额消费
+    en: Impersonated payment, spending past the limit
+  flow_out: { zh: 回执, en: receipt }
+  techs:
+    - { label: Visa TAP, family: protocol }
+    - { label: Agent Pay, family: protocol }
+    - { label: x402, family: protocol }
+  buyer: { zh: 商户 / 发卡行, en: Merchants / issuers }
+  budget: { zh: 支付风控, en: Payment risk }
+  maturity: standards-war
+
+- id: audit
+  n: 6
+  name: { zh: 留痕 / 举证, en: Record and proof }
+  question:
+    zh: 事后能证明它做了什么吗？
+    en: Can you later prove what it did?
+  threat:
+    zh: 日志可被自己篡改
+    en: The agent can rewrite its own log
+  techs:
+    - { label: { zh: 防篡改日志, en: Tamper-evident logs }, family: protocol }
+    - { label: { zh: AI Act 第 12 条, en: AI Act Article 12 }, family: protocol }
+    - { label: { zh: 签名执行轨迹, en: Signed execution traces }, family: crypto }
+  buyer: { zh: 合规 / 法务, en: Compliance / legal }
+  budget: { zh: GRC 软件, en: GRC software }
+  maturity: settled

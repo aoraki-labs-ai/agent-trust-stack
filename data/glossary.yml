@@ -1,0 +1,196 @@
+# Single source of truth for terminology. Chapters pull subsets from here.
+- term: TEE
+  full: { zh: 可信执行环境, en: Trusted Execution Environment }
+  plain:
+    zh: CPU 或 GPU 里一块「加了锁的房间」：里面的内存是密文，连操作系统和云管理员都读不到明文。
+    en: A locked room inside a CPU or GPU — the memory in it is ciphertext, unreadable even to the operating system and the cloud operator.
+  why:
+    zh: 目前唯一能以个位数性能损失做到「云上跑 AI 但云厂商看不见数据」的手段。
+    en: The only way today to run AI in someone else's cloud without them seeing the data, at single-digit percent overhead.
+  family: hardware
+
+- term: { zh: 远程证明, en: Remote attestation }
+  plain:
+    zh: 芯片用出厂时烧进去的私钥，签一份「我现在跑的是这段代码、这个配置」的报告给你。
+    en: The chip signs a report saying "I am running this code, in this configuration", using a key burned in at manufacture.
+  why:
+    zh: 「机密」与「可验证」的唯一接缝。没有它，TEE 只是一个你无法检查的黑箱承诺。
+    en: The single seam between confidentiality and verifiability. Without it a TEE is an unfalsifiable promise.
+  family: hardware
+
+- term: { zh: 机密计算, en: Confidential computing }
+  plain:
+    zh: TEE 加远程证明组成的一整套工程实践与产品品类。
+    en: The engineering practice and product category built from TEEs plus remote attestation.
+  why:
+    zh: 2026 年企业实际在下采购单的那个品类名。
+    en: The category name enterprises actually place orders against in 2026.
+  family: hardware
+
+- term: { zh: GPU TEE / CC 模式, en: GPU TEE / CC mode }
+  plain:
+    zh: 把机密计算搬进显卡：显存加密、PCIe 总线加密、GPU 自己也能出具证明报告。
+    en: Confidential computing inside the graphics card — encrypted VRAM, an encrypted PCIe bus, and attestation from the GPU itself.
+  why:
+    zh: 没有它，机密计算挡不住 AI——模型权重和推理输入最终都要进显存。
+    en: Without it confidential computing does not cover AI, because weights and inputs end up in VRAM regardless.
+  family: hardware
+
+- term: { zh: ZK 证明, en: Zero-knowledge proof }
+  plain:
+    zh: 让你能证明「我算对了」，而不用把输入和过程给对方看。
+    en: Proving that you computed something correctly without showing the input or the steps.
+  why:
+    zh: 「正确性」这一类需求的通用解法；代价是算一遍要多花几个数量级的力气。
+    en: The general answer to correctness, at a cost of several orders of magnitude more work.
+  family: crypto
+
+- term: zkML
+  plain:
+    zh: 把神经网络的一次前向推理编成算术电路，为它生成 ZK 证明。
+    en: Compiling one forward pass of a neural network into an arithmetic circuit and proving it.
+  why:
+    zh: 「可验证 AI」最激进的路线，也是成本最高的路线。
+    en: The most ambitious route to verifiable AI, and the most expensive.
+  family: crypto
+
+- term: { zh: OPML / 乐观验证, en: OPML / optimistic verification }
+  plain:
+    zh: 先默认算对，挂一个挑战期；有人举报就重算仲裁。
+    en: Assume the result is correct, open a challenge window, and re-execute only when someone disputes it.
+  why:
+    zh: 近乎零开销，代价是结果要等挑战期才能定论，且必须真的有人在盯。
+    en: Near-zero overhead, paid for with delayed finality and the assumption that somebody is actually watching.
+  family: protocol
+
+- term: FHE
+  full: { zh: 全同态加密, en: Fully homomorphic encryption }
+  plain:
+    zh: 数据一直是密文，服务器在密文上直接做加减乘，算完还回来你才解密。
+    en: The data stays encrypted; the server computes on ciphertext and you decrypt only the result.
+  why:
+    zh: 隐私性最强，但开销仍是明文的千倍到万倍，是长期期权不是当下工具。
+    en: The strongest privacy, still at a thousand to ten thousand times the cost — a long-dated option, not a present-day tool.
+  family: crypto
+
+- term: MPC
+  full: { zh: 安全多方计算, en: Secure multi-party computation }
+  plain:
+    zh: 几方各持一份数据碎片，一起算出结果，谁也看不到别人的那份。
+    en: Several parties each hold a share of the data and jointly compute a result without seeing each other's share.
+  why:
+    zh: 很多「盲计算」网络的底座；用在 LLM 推理上目前仍是分钟级每 token。
+    en: The base of several blind-computation networks; still minutes per token for LLM inference.
+  family: crypto
+
+- term: zkTLS
+  plain:
+    zh: 不需要网站配合，就能证明「我确实从某站点拿到了这一句话」，且可以只暴露其中一部分。
+    en: Proving a particular sentence came from a particular site, without the site's cooperation, revealing only part of it.
+  why:
+    zh: 解决 agent 的输入真实性：它看到的网页或接口数据到底是不是真的。
+    en: Addresses an agent's intake authenticity — whether the page or API response it read is genuine.
+  family: crypto
+
+- term: C2PA
+  full: { zh: 内容凭证, en: Content Credentials }
+  plain:
+    zh: 给图片或视频挂一份签名清单：谁拍的、用什么工具、有没有用 AI、改过哪些地方。
+    en: A signed manifest attached to an image or video — who captured it, with what tool, whether AI was involved, what was edited.
+  why:
+    zh: 欧盟 AI Act 的 AI 内容标注义务可直接用它满足。注意它不检测深伪，只记录签名方的自述。
+    en: Satisfies the EU AI Act's AI-content labelling duty directly. Note it does not detect deepfakes; it records the signer's own assertion.
+  family: protocol
+
+- term: DID / VC
+  full: { zh: 去中心化标识符 / 可验证凭证, en: Decentralised identifiers / verifiable credentials }
+  plain:
+    zh: 一个不依赖某家公司的身份 ID，和一张可离线验签的「授权书」。
+    en: An identifier that depends on no single company, plus a credential anyone can verify offline.
+  why:
+    zh: agent 身份层的一条实现路径，与支付网络的令牌路径并行竞争。
+    en: One implementation path for agent identity, competing with the payment networks' token path.
+  family: protocol
+
+- term: { zh: Web Bot Auth / RFC 9421, en: Web Bot Auth / RFC 9421 }
+  plain:
+    zh: agent 用 Ed25519 私钥签 HTTP 请求头，网站按公开的公钥验签，从此不靠 IP 和 User-Agent 认机器人。
+    en: The agent signs HTTP request headers with an Ed25519 key and the site verifies against a published public key — no more guessing from IP and User-Agent.
+  why:
+    zh: 2026 年事实上的 agent 身份底座；两家支付网络的代理协议都架在它上面。
+    en: The de-facto base for agent identity in 2026; both payment networks' agent protocols sit on it.
+  family: protocol
+
+- term: mandate
+  full: { zh: 授权书 / 范围化凭证, en: Mandate / scoped credential }
+  plain:
+    zh: 一张写明「谁、允许做什么、上限多少、有效期多久」的签名文书，agent 每次行动都要带。
+    en: A signed document stating who authorised what, up to what limit, until when — carried on every action.
+  why:
+    zh: 把「agent 有没有越权」从事后审计问题，变成事前可验证问题。
+    en: Turns "did the agent exceed its authority" from an after-the-fact audit question into something checkable in advance.
+  family: protocol
+
+- term: x402
+  plain:
+    zh: 复活 HTTP 402「Payment Required」状态码，让 agent 直接在请求头里带稳定币付款。
+    en: Reviving the HTTP 402 "Payment Required" status code so an agent can settle in stablecoin from the request header.
+  why:
+    zh: agent 之间按次付费的机器原生轨道。
+    en: A machine-native rail for agents paying each other per call.
+  family: protocol
+
+- term: ERC-8004
+  plain:
+    zh: 以太坊上给 agent 用的三本登记簿：身份、信誉、验证。
+    en: "Three on-chain registries for agents on Ethereum: identity, reputation and validation."
+  why:
+    zh: 加密圈对「可信 agent」给出的答案。第 07 章用实证数据说明它目前的实际状态。
+    en: The crypto ecosystem's answer to trustworthy agents. Chapter 07 gives the empirical picture of where it actually stands.
+  family: protocol
+
+- term: { zh: AI 治理平台 / AI TRiSM, en: AI governance platform / AI TRiSM }
+  plain:
+    zh: 专门管 AI 的策略、审批、留痕与阻断的企业软件。
+    en: Enterprise software for AI policy, approval, record-keeping and intervention.
+  why:
+    zh: 合规预算实际落地的那个采购科目，2026 年 6 月成为独立的分析师品类。
+    en: The procurement line compliance budget actually lands on; it became an analyst category of its own in June 2026.
+  family: protocol
+
+- term: { zh: AI Act 第 12 条, en: AI Act Article 12 }
+  plain:
+    zh: 欧盟要求高风险 AI 系统在全生命周期自动记录事件日志。
+    en: The EU requirement that high-risk AI systems automatically log events across their lifetime.
+  why:
+    zh: 本报告唯一一个带硬日期和硬罚则的需求来源。
+    en: The only demand driver in this report with a hard date and a hard penalty attached.
+  family: protocol
+
+- term: ZDR
+  full: { zh: 零数据保留, en: Zero data retention }
+  plain:
+    zh: 模型厂商承诺不留存你的 prompt 和输出、不用于训练、员工不看。
+    en: A model vendor's pledge not to retain prompts or outputs, not to train on them, and not to let staff read them.
+  why:
+    zh: 这是合同承诺而非密码学保证。两者的差值，正是机密计算的市场空间。
+    en: A contractual promise, not a cryptographic guarantee. The gap between the two is the market for confidential computing.
+  family: protocol
+
+- term: { zh: 数据洁净室, en: Data clean room }
+  plain:
+    zh: 两家公司把各自数据放进一个谁都进不去的房间，只取走聚合结果。
+    en: Two companies put their data into a room neither can enter, and take out only aggregates.
+  why:
+    zh: 机密计算最早落地赚钱的形态，在广告与医药已是成熟生意。
+    en: The first commercially successful shape of confidential computing, already mature in advertising and pharma.
+  family: hardware
+
+- term: { zh: 提示注入, en: Prompt injection }
+  plain:
+    zh: 把指令藏在 agent 会读到的网页、邮件或文档里，让它照着执行。
+    en: Hiding instructions in a page, email or document the agent will read, so that it carries them out.
+  why:
+    zh: agent 时代最典型的新增攻击面：不可信输入被直接当成指令执行。
+    en: The characteristic new attack surface of the agent era — untrusted input executed as instruction.
+  family: protocol

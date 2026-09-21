@@ -1,0 +1,86 @@
+---
+import { dataset, t, FAMILY_COLOR, type Bi } from '../lib/data';
+
+interface Layer {
+  id: string;
+  name: Bi;
+  question: Bi;
+  note: Bi;
+  chips: { label: Bi; family: string }[];
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const layers = dataset<Layer[]>('stack');
+const answers = { zh: '回答：', en: 'Answers: ' }[lang];
+---
+
+<div class="stack">
+  {
+    layers.map((layer) => (
+      <div class="layer">
+        <div class="layer__id">
+          {layer.id}
+          <b>{t(layer.name, lang)}</b>
+        </div>
+        <div>
+          <p class="layer__q">
+            {answers}<b>{t(layer.question, lang)}</b> — {t(layer.note, lang)}
+          </p>
+          <div class="layer__chips">
+            {layer.chips.map((chip) => (
+              <span class="layer__chip" style={`border-color:color-mix(in srgb, ${FAMILY_COLOR[chip.family]} 45%, transparent)`}>
+                {t(chip.label, lang)}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-block: 1.4rem;
+  }
+  .layer {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  @media (max-width: 30rem) {
+    .layer { grid-template-columns: 1fr; gap: 0.35rem; }
+  }
+  .layer__id {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-text-accent);
+    font-family: var(--__sl-font-mono, monospace);
+  }
+  .layer__id b {
+    display: block;
+    margin-top: 0.15rem;
+    color: var(--sl-color-white);
+    font-size: var(--sl-text-sm);
+    font-family: var(--__sl-font, sans-serif);
+  }
+  .layer__q {
+    margin: 0 0 0.5rem;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+  .layer__chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .layer__chip {
+    padding: 0.05em 0.6em;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 1rem;
+    font-size: var(--sl-text-xs);
+    font-family: var(--__sl-font-mono, monospace);
+    color: var(--sl-color-gray-2);
+  }
+</style>

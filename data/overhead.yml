@@ -1,0 +1,40 @@
+# Compute overhead relative to plaintext inference. Drives the log-scale figure
+# in chapter 03. `claim` links a row to the record carrying its source.
+- label: { zh: 明文推理（基线）, en: Plaintext inference (baseline) }
+  low: 1
+  high: 1
+  family: baseline
+  display: { zh: 1×, en: 1x }
+- label: { zh: GPU TEE 机密计算, en: GPU TEE confidential computing }
+  low: 1.02
+  high: 1.15
+  family: hardware
+  claim: tee-gpu-overhead
+  display: { zh: 1.02–1.15×, en: 1.02-1.15x }
+- label: { zh: 哈希抽检（每验证者）, en: Hashed spot-checks (per validator) }
+  low: 1.05
+  high: 1.20
+  family: protocol
+  display: { zh: 1.05–1.20×, en: 1.05-1.20x }
+- label: { zh: 乐观验证 OPML, en: Optimistic verification (OPML) }
+  low: 1.0
+  high: 1.10
+  family: protocol
+  display: { zh: ≈ 1×（+挑战期）, en: "~1x (plus challenge window)" }
+- label: { zh: 随机重算（n＝2∼3）, en: Random re-execution (n = 2-3) }
+  low: 2
+  high: 3
+  family: protocol
+  display: { zh: 2–3×, en: 2-3x }
+- label: { zh: zkML 零知识推理证明, en: zkML inference proofs }
+  low: 100
+  high: 10000
+  family: crypto
+  claim: zkml-prove-overhead
+  display: { zh: 100–10,000×, en: 100-10,000x }
+- label: { zh: FHE 密文推理, en: FHE inference on ciphertext }
+  low: 1000
+  high: 10000
+  family: crypto
+  claim: fhe-inference-overhead
+  display: { zh: 1,000–10,000×, en: 1,000-10,000x }

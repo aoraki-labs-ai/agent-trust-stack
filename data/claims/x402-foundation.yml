@@ -1,0 +1,17 @@
+id: x402-foundation
+kind: event
+statement:
+  zh: x402 基金会于 2026-07 成立，由包括 Visa、Mastercard、Google、AWS、Shopify、Coinbase 在内的约 40 家公司组成
+  en: The x402 Foundation was established in 2026-07 by a coalition of around 40 companies including Visa, Mastercard, Google, AWS, Shopify and Coinbase
+value: { date: 2026-07, members: 40 }
+tier: literature
+sources:
+  - url: https://www.forbes.com/sites/digital-assets/2026/06/07/visa-mastercard-and-coinbase-are-fighting-over-how-ai-agents-pay/
+    title: Visa, Mastercard And Coinbase Are Fighting Over How AI Agents Pay
+    publisher: Forbes
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: 基金会成员名单的一手来源显示公司数量显著少于 40，或上述任一家未实际加入
+  en: A primary membership list shows materially fewer than 40 companies, or any named company is absent
+review_by: 2027-03-01

@@ -1,0 +1,94 @@
+---
+title: "Ecosystem: six camps"
+description: "Who sells what, to whom, on how much funding — and one counterintuitive observation: the best-funded camp addresses the one demand line with no budget behind it."
+chapter: "05"
+status: in-review
+lastReviewed: 2026-09-21
+claims:
+  - fortanix-customers
+  - webbotauth-adopters
+  - x402-foundation
+  - apple-pcc-google-cloud
+  - anthropic-zdr-retention
+  - openai-private-safety-processing
+---
+
+import Claim from '../../../components/Claim.astro';
+import VendorTable from '../../../components/VendorTable.astro';
+
+[Chapter 04](/agent-trust-stack/en/04-stack/) gave the layers; this one gives the names. The "gaps"
+column refers to the numbering in the figure in [chapter 02](/agent-trust-stack/en/02-demand/).
+
+## Terms used in this chapter
+
+| Term | In one sentence |
+|---|---|
+| **Data clean room** | Two companies put data into a room neither can enter, and take out only aggregates |
+| **Confidential EVM** | A blockchain execution environment where contract state and inputs stay hidden even from validators |
+| **Agent sandbox** | An agent backend inside a confidential VM, with sealed keys, private memory and verifiable execution |
+| **Zero data retention** | A vendor's pledge not to retain prompts or outputs, not to train on them, and not to let staff read them |
+
+## The six camps
+
+<VendorTable />
+
+## Three things worth stopping on
+
+### 1. The best-funded camp faces the one gap with no budget
+
+Read the table vertically. Camp five — verifiable inference and cryptography — carries the most
+concentrated disclosed funding of the six, and the gap it addresses, inference correctness, is the
+only line marked "no buyer yet" in the commercial table in
+[chapter 02](/agent-trust-stack/en/02-demand/).
+
+Camp six, by contrast, involves almost no new cryptography — RFC 9421 and Ed25519 are both
+pre-existing — and yet in twelve months it drew in three payment networks, a CDN and four security
+vendors at once.
+
+This does not mean cryptography is useless. It means that **in this market, distribution is currently
+worth more than algorithms.** Visa and Mastercard did not need to invent anything; they needed to
+announce which signature they would accept.
+
+### 2. Model vendors are turning confidential computing into a product feature
+
+Camp three is the biggest change of 2026. <Claim id="apple-pcc-google-cloud" full />
+
+Meanwhile: <Claim id="openai-private-safety-processing" full />
+And <Claim id="anthropic-zdr-retention" full />
+
+What the three have in common: **strong promises, no published implementation detail.** That gap
+between a promise and something checkable is the subject of section 7.3 in
+[chapter 07](/agent-trust-stack/en/07-cold-water/), and it is where the real market for confidential
+computing lies.
+
+### 3. Vendor-reported numbers need discounting
+
+Several rows come from vendors' own accounts, such as <Claim id="fortanix-customers" />. This report
+tags all such sources as vendor-tier, because **numbers that flatter the source are systematically
+optimistic**: "serving more than 100 organisations" may include trials, proofs of concept and free
+tiers, which is not the same thing as 100 paying customers.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+If by mid-2027 requests carrying a <code>Signature-Agent</code> header remain below 1% of agent
+traffic, then "distribution is worth more than algorithms" is wrong and L3 is still contested.
+Executable check: Cloudflare Radar's bot and agent traffic breakdown, and the IETF working group's
+progress toward an RFC.
+</div>
+
+## A known coverage gap
+
+**This chapter does not cover the Chinese or wider APAC ecosystem at all.** SecretFlow, FATE, the
+TEEs on Ascend and Kunpeng, Alibaba's confidential computing instances — none of it has been
+researched yet. It is this report's largest geographic blind spot and its main intended
+differentiator, since English-language reports generally cannot read that part of the market.
+
+Until it is filled, read this chapter as a map of the Western ecosystem, not a global one.
+
+## How to falsify (chapter summary)
+
+| Conclusion | What would overturn it |
+|---|---|
+| Distribution is worth more than algorithms | Signed agent traffic still under 1% by mid-2027 |
+| Model vendors' confidentiality pledges are unverifiable | Any of them publishes a customer-checkable attestation procedure |
+| Vendor-reported customer counts are optimistic | An independent source confirms paying customers at the same order of magnitude |

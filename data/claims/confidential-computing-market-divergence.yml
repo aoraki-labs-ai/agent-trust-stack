@@ -1,0 +1,22 @@
+id: confidential-computing-market-divergence
+kind: quantity
+statement:
+  zh: 各家对机密计算市场的预测口径差异极大：MarketsandMarkets 给 2023 年 53 亿美元到 2028 年 594 亿美元（CAGR 62.1%），另有机构给出 2026 年 151 亿与 181 亿美元两个相差悬殊的基数
+  en: "Confidential computing market forecasts diverge sharply: MarketsandMarkets gives $5.3B in 2023 to $59.4B in 2028 (62.1% CAGR), while other houses put the 2026 base at $15.1B and $18.1B respectively"
+value:
+  marketsandmarkets: { from_year: 2023, from_usd: 5300000000, to_year: 2028, to_usd: 59400000000, cagr: 0.621 }
+  other_2026_bases_usd: [15100000000, 18100000000]
+tier: literature
+sources:
+  - url: https://www.marketsandmarkets.com/Market-Reports/confidential-computing-market-27796261.html
+    title: Confidential Computing Market
+    publisher: MarketsandMarkets
+    type: analyst
+    accessed: 2026-09-17
+notes:
+  zh: 本条的用途是展示分歧本身，不是给出规模依据。禁止跨来源取平均。2026 年基数的两个数字尚未回溯到各自的一手报告页。
+  en: This record exists to show the divergence, not to supply a size estimate. Never average across houses. The two 2026 base figures have not yet been traced to their own report pages.
+falsifier:
+  zh: 三家机构公布可比的口径定义（同样的品类边界与统计方法），且数字收敛到同一量级
+  en: The houses publish comparable scope definitions and their figures converge to the same order of magnitude
+review_by: 2027-03-01

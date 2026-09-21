@@ -1,0 +1,20 @@
+id: zkpytorch-prove-time
+kind: quantity
+statement:
+  zh: 用 zkPyTorch 框架为一个 8B 模型的 50–100 个 token 生成证明，约需 2–4 小时
+  en: Proving 50-100 tokens of an 8B model with the zkPyTorch framework takes roughly 2-4 hours
+value: { low_hours: 2, high_hours: 4, tokens_low: 50, tokens_high: 100, params: 8000000000 }
+display:
+  zh: 2–4 小时 / 50–100 token
+  en: 2-4 h per 50-100 tokens
+tier: literature
+sources:
+  - url: https://equilibrium.co/writing/state-of-verifiable-inference
+    title: State of Verifiable Inference & Future Directions
+    publisher: Equilibrium Labs
+    type: secondary
+    accessed: 2026-09-17
+falsifier:
+  zh: 公开可复现基准显示同规模模型 1,000 token 的证明进入分钟级
+  en: A reproducible public benchmark proves 1,000 tokens of a comparable model in minutes
+review_by: 2027-03-01

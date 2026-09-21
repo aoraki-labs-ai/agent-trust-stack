@@ -1,0 +1,108 @@
+---
+import { dataset, t, FAMILY_COLOR, type Bi } from '../lib/data';
+
+interface Gap {
+  id: string;
+  n: number;
+  name: Bi;
+  techs: { label: Bi; family: string }[];
+  buyer: Bi;
+  budget: Bi;
+  maturity: string;
+}
+
+const lang = Astro.currentLocale === 'en' ? 'en' : 'zh';
+const gaps = dataset<Gap[]>('gaps');
+
+const MATURITY: Record<string, { zh: string; en: string; tone: string }> = {
+  settled: { zh: '已成交', en: 'money changing hands', tone: 'good' },
+  'standards-war': { zh: '标准战', en: 'standards war', tone: 'mid' },
+  early: { zh: '早期', en: 'early', tone: 'mid' },
+  unpriced: { zh: '尚无买家', en: 'no buyer yet', tone: 'warn' },
+};
+
+const head = {
+  zh: ['缺口', '谁签字', '预算科目', '代表技术', '成色'],
+  en: ['Gap', 'Who signs', 'Budget line', 'Technologies', 'Commercial state'],
+}[lang];
+const circled = ['①', '②', '③', '④', '⑤', '⑥'];
+---
+
+<div class="tbl-wrap">
+  <table class="gap-table">
+    <thead>
+      <tr>{head.map((h) => <th>{h}</th>)}</tr>
+    </thead>
+    <tbody>
+      {
+        gaps.map((gap) => {
+          const m = MATURITY[gap.maturity];
+          return (
+            <tr>
+              <td><b>{circled[gap.n - 1]} {t(gap.name, lang)}</b></td>
+              <td>{t(gap.buyer, lang)}</td>
+              <td>{t(gap.budget, lang)}</td>
+              <td>
+                {gap.techs.map((tech) => (
+                  <span class="gap-tech">
+                    <i class="figure__swatch" style={`background:${FAMILY_COLOR[tech.family]}`} />
+                    {t(tech.label, lang)}
+                  </span>
+                ))}
+              </td>
+              <td><span class={`gap-state gap-state--${m.tone}`}>{m[lang]}</span></td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-block: 1.25rem;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+  }
+  .gap-table {
+    width: 100%;
+    min-width: 640px;
+    margin: 0;
+    border-collapse: collapse;
+    font-size: var(--sl-text-sm);
+  }
+  .gap-table th,
+  .gap-table td {
+    padding: 0.5rem 0.75rem;
+    text-align: start;
+    vertical-align: top;
+    border-bottom: 1px solid var(--sl-color-gray-6);
+  }
+  .gap-table thead th {
+    background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+    white-space: nowrap;
+  }
+  .gap-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .gap-tech {
+    display: block;
+    white-space: nowrap;
+  }
+  .gap-tech .figure__swatch {
+    margin-inline-end: 0.4em;
+  }
+  .gap-state {
+    display: inline-block;
+    padding: 0.05em 0.5em;
+    border: 1px solid currentColor;
+    border-radius: 3px;
+    font-size: var(--sl-text-xs);
+    white-space: nowrap;
+  }
+  .gap-state--good { color: var(--sl-color-green-high); }
+  .gap-state--mid { color: var(--sl-color-gray-2); }
+  .gap-state--warn { color: var(--sl-color-orange-high); }
+</style>

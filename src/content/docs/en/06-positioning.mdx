@@ -1,0 +1,79 @@
+---
+title: Maturity against willingness to pay
+description: Fourteen technologies placed on two axes — can you buy it, and is anyone in a hurry to. The most subjective chapter in the report, so both axes come with published rubrics.
+chapter: "06"
+status: in-review
+lastReviewed: 2026-09-21
+---
+
+import PositioningChart from '../../../components/charts/PositioningChart.astro';
+
+"Mature" and "someone is buying" are different things. Plenty of technology is mature with nobody in
+a hurry (differential privacy), and plenty is immature with budget already queued behind it (agent
+auditing). This chapter separates the two onto two axes.
+
+**Stated plainly: everything in this chapter is judgement, not measurement.** Its value is not that
+the conclusions are right, but that **anyone can re-measure it with the same ruler.**
+
+## The rubrics
+
+So the figure can be argued with, both axes are scored against operational criteria rather than
+adjectives:
+
+| Score | Horizontal: procurability | Vertical: payment pressure |
+|---|---|---|
+| **0** | Papers and prototypes only | No identifiable buyer |
+| **1** | An open-source implementation you can run | Funded by ecosystem, token or research subsidy |
+| **2** | A hosted service or public testnet exists | On an enterprise pilot budget |
+| **3** | A cloud GA product, or carrying real production load | Compliance-forced, or in a formal procurement catalogue |
+
+Anyone can re-score with these two rulers and overturn the placement of any point below. The scores
+live in `data/positioning.yml` in the repository; changing one line redraws the figure.
+
+## The map
+
+<PositioningChart />
+
+## What each quadrant says
+
+- **Top right, money moving** — all hardware and governance, not one pure-cryptography entry. This
+  corroborates the cost figure in [chapter 03](/agent-trust-stack/en/03-cost/): everything both
+  buyable and urgently bought runs at single-digit percent overhead.
+- **Bottom left, still papers** — all cryptography. FHE, MPC and zkML sit here, and they happen to be
+  where disclosed funding concentrates (see [chapter 05](/agent-trust-stack/en/05-ecosystem/)).
+- **Bottom right, buyable but not urgent** — clean rooms, federated learning, content credentials.
+  Mature technology waiting for an external force to make it mandatory. C2PA may move up in 2027 as
+  the AI Act's content-labelling duty starts to bite.
+- **Top left, wanted but unbuyable — essentially empty.** This is the most interesting thing in the
+  figure.
+
+On that last point: if this market's bottleneck were **supply** — buyers waiting for something nobody
+can build — the top left would be crowded. It is empty, which says the bottleneck is on the **demand**
+side. The technology has existed for a while; nobody has turned it into a purchase order. That agrees
+with section 2.3 of [chapter 02](/agent-trust-stack/en/02-demand/): across the six procurement lines,
+what is missing is not technology but a budget line.
+
+<div class="falsify">
+<strong>How to falsify</strong>
+Re-score all fourteen with the rubrics above. If you can argue zkML's vertical position should be
+2 or more — by naming an enterprise buyer with verifiable inference in a formal budget, with a
+contract or public case — then half of this figure's downward-right conclusion falls. Likewise, if
+ERC-8004's horizontal position can be argued to 2 or more, section 7.1 of
+[chapter 07](/agent-trust-stack/en/07-cold-water/) has to be rewritten.
+</div>
+
+## What this figure must not be used for
+
+- **Not for selection.** Further right means easier to buy, not better suited to your case.
+- **Not for valuation.** The vertical axis measures whether anyone is paying now, not what something
+  will be worth.
+- **Not for comparison across time.** This is a 2026-09 snapshot, and the "cloud GA" criterion drifts
+  upward on its own.
+
+## How to falsify (chapter summary)
+
+| Conclusion | What would overturn it |
+|---|---|
+| The top right is all hardware and governance | A pure-cryptography technology reaches cloud GA and a procurement catalogue |
+| The empty top left means demand is the bottleneck | A clearly articulated purchase requirement that nobody can satisfy |
+| zkML's payment pressure is below 2 | Naming an enterprise buyer with it in a formal budget |
